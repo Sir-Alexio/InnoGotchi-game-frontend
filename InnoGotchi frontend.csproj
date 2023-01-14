@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,5 +6,50 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>InnoGotchi_frontend</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\Bodies\body1.svg" />
+    <Content Remove="wwwroot\Images\Bodies\body2.svg" />
+    <Content Remove="wwwroot\Images\Bodies\body3.svg" />
+    <Content Remove="wwwroot\Images\Bodies\body4.svg" />
+    <Content Remove="wwwroot\Images\Bodies\body5.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\InnoGotchi-game-backend\InnoGotchiBackend\InnoGotchi backend\InnoGotchi backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Bodies\body1.svg" />
+    <None Include="wwwroot\Images\Bodies\body2.svg" />
+    <None Include="wwwroot\Images\Bodies\body3.svg" />
+    <None Include="wwwroot\Images\Bodies\body4.svg" />
+    <None Include="wwwroot\Images\Bodies\body5.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes1.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes2.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes3.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes4.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes5.svg" />
+    <None Include="wwwroot\Images\Eyes\eyes6.svg" />
+    <None Include="wwwroot\Images\Mouths\mouth1.svg" />
+    <None Include="wwwroot\Images\Mouths\mouth2.svg" />
+    <None Include="wwwroot\Images\Mouths\mouth3.svg" />
+    <None Include="wwwroot\Images\Mouths\mouth4.svg" />
+    <None Include="wwwroot\Images\Mouths\mouth5.svg" />
+    <None Include="wwwroot\Images\Noses\nose1.svg" />
+    <None Include="wwwroot\Images\Noses\nose2.svg" />
+    <None Include="wwwroot\Images\Noses\nose3.svg" />
+    <None Include="wwwroot\Images\Noses\nose4.svg" />
+    <None Include="wwwroot\Images\Noses\nose5.svg" />
+    <None Include="wwwroot\Images\Noses\nose6.svg" />
+  </ItemGroup>
 
 </Project>
