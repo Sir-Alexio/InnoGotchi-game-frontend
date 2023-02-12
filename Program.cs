@@ -8,6 +8,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NuGet.Configuration;
 using InnoGotchi_frontend.Controllers;
+using FluentValidation;
+using InnoGotchi_backend.Models;
+using InnoGotchi_frontend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient("Client", c => c.BaseAddress = new System.Uri("https://localhost:7198/"));

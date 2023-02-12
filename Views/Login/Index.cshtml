@@ -1,32 +1,32 @@
-﻿
+﻿@model InnoGotchi_backend.Models.UserDto
+
 @{
-    ViewData["Title"] = "LoginView";
+    ViewData["Title"] = "Index";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>METANIT.COM</title>
-</head>
-<body>
-    <div id="userInfo" style="display:none;">
-        <p>Добро пожаловать <span id="userName"></span>!</p>
-        <input type="button" value="Выйти" id="logOut" />
+
+
+<h1>Log in</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" asp-controller="Login" asp-action="LogIn" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div id="loginForm">
-        <h3>Вход на сайт</h3>
-        <p>
-            <label>Введите email</label><br />
-            <input type="email" id="email" />
-        </p>
-        <p>
-            <label>Введите пароль</label><br />
-            <input type="password" id="password" />
-        </p>
-        <input type="submit" id="submitLogin" value="Войти" />
-    </div>
-   
-</body>
-</html>
+</div>
+
 
