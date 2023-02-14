@@ -11,6 +11,7 @@ using System.Net.Http;
 
 namespace InnoGotchi_frontend.Controllers
 {
+    [Route("innogotches")]
     public class AllInnogotchiListController : Controller
     {
         private readonly HttpClient _client;
@@ -22,10 +23,19 @@ namespace InnoGotchi_frontend.Controllers
 
         public async Task<ActionResult> Index()
         {
+            IRequestCookieCollection cookie = HttpContext.Request.Cookies;
 
-            var response = await _client.GetFromJsonAsync("api/Auth/data",typeof(IEnumerable<Pet>));
+            if (cookie.TryGetValue("token",out string? token))
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
-            return View(response);
+            HttpResponseMessage response = await _client.GetAsync("api/pet");
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest("UnAuthorized");
+            }
+            return Ok(response);
             
         }
 

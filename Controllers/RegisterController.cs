@@ -35,11 +35,12 @@ namespace InnoGotchi_frontend.Controllers
             
             JsonContent content = JsonContent.Create(userDto);
 
-            using HttpResponseMessage response = await _httpClient.PostAsync("api/Reg/registration", content);
+            using HttpResponseMessage response = await _httpClient.PostAsync("api/registration", content);
 
             if (!response.IsSuccessStatusCode)
             {
-                this.ModelState.AddModelError(string.Empty, "This Email already exist");
+                this.ModelState.AddModelError(string.Empty, "This Email is already exist");
+
                 validationResult.AddToModelState(this.ModelState);
 
                 return View("Index", userDto);   

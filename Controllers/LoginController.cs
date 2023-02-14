@@ -12,11 +12,13 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly IValidator<UserDto> _validator;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(IHttpClientFactory httpClientFactory, IValidator<UserDto> validator)
+        public LoginController(IHttpClientFactory httpClientFactory, IValidator<UserDto> validator, ILogger<LoginController> logger)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _validator = validator;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -27,16 +29,23 @@ namespace InnoGotchi_frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> LogIn(UserDto dto)
         {
-            dto.FirstName = "Alexey";
-            dto.LastName = "Mokharev";
-            dto.UserName = "mamka28";
+
             if (!Validation(dto).Result)
             {
                 return View("Index",dto);
             }
+
             JsonContent content = JsonContent.Create(dto);
 
-            using HttpResponseMessage response = await _httpClient.PostAsync("api/Auth/login", content);
+            using HttpResponseMessage response = await _httpClient.PostAsync("api/authorization", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Password is incorect");
+                return View("Index", dto);
+            }
+
+            AddTokenToCookie(response.Content.ReadAsStringAsync().Result);
 
             return Ok(response);
         }
@@ -53,6 +62,23 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             return true;
+        }
+        private void AddTokenToCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(1)
+            };
+            Response.Cookies.Append("token", token, cookieOptions);
+        }
+        private void RemoveCookie(string cookieName)
+        {
+            var options = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            };
+            Response.Cookies.Delete($"{cookieName}", options);
         }
     }
 }
