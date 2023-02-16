@@ -31,11 +31,12 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             HttpResponseMessage response = await _client.GetAsync("api/pet");
+
             if (!response.IsSuccessStatusCode)
             {
                 return BadRequest("UnAuthorized");
             }
-            return Ok(response);
+            return RedirectToAction("Index", "account");
             
         }
 

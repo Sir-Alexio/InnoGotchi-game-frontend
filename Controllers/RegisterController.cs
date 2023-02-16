@@ -5,6 +5,7 @@ using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Models;
 
 namespace InnoGotchi_frontend.Controllers
 {

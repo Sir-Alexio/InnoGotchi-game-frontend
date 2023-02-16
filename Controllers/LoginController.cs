@@ -46,8 +46,8 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             AddTokenToCookie(response.Content.ReadAsStringAsync().Result);
-
-            return Ok(response);
+            RemoveCookie("token");
+            return RedirectToAction("Index", "account");
         }
 
         public async Task<bool> Validation(UserDto userDto)
