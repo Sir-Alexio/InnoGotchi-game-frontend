@@ -1,4 +1,4 @@
-﻿@model InnoGotchi_backend.Models.UserDto
+﻿@model RegistrationUser
 
 @{
     ViewData["Title"] = "Index";
@@ -7,40 +7,44 @@
 
 <h1>Registration</h1>
 <hr />
+<form method="post" enctype="multipart/form-data">
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <label asp-for="@Model.Dto.UserName" class="control-label"></label>
+                    <input asp-for="@Model.Dto.UserName" class="form-control" />
+                    <span asp-validation-for="@Model.Dto.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <label asp-for="@Model.Dto.FirstName" class="control-label"></label>
+                    <input asp-for="@Model.Dto.FirstName" class="form-control" />
+                    <span asp-validation-for="@Model.Dto.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                    <label asp-for="@Model.Dto.LastName" class="control-label"></label>
+                    <input asp-for="@Model.Dto.LastName" class="form-control" />
+                    <span asp-validation-for="@Model.Dto.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                    <label asp-for="@Model.Dto.Email" class="control-label"></label>
+                    <input asp-for="@Model.Dto.Email" class="form-control" />
+                    <span asp-validation-for="@Model.Dto.Email" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                    <label asp-for="@Model.Dto.Password" class="control-label"></label>
+                    <input asp-for="@Model.Dto.Password" class="form-control" />
+                    <span asp-validation-for="@Model.Dto.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                    <label asp-for="@Model.Image" class="control-label"></label>
+                <div class="custom-file">
+                        <input asp-for="@Model.Image" class="custom-file-input" id="customFile" />
+                    <label class="custom-file-label" for="customFile"></label>
+                </div>
+                    <span asp-validation-for="@Model.Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" asp-area="" asp-controller="Register" asp-action="OnPost" value="Create" class="btn btn-primary" />
@@ -48,6 +52,8 @@
         </form>
     </div>
 </div>
+</form>
+
 
 
 

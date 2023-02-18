@@ -1,0 +1,46 @@
+﻿@model RegistrationUser
+@{
+    Layout = "AuthorizeLayout";
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Personal info</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <td>
+                <img src="~/Images/avatars/@Model.Dto.Avatar" width="200" height="200" />
+            </td>
+            <div class="form-group">
+                <label asp-for="@Model.Dto.UserName" class="control-label"></label>
+                <input asp-for="@Model.Dto.UserName" class="form-control" />
+                <span asp-validation-for="@Model.Dto.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Dto.FirstName" class="control-label"></label>
+                <input asp-for="@Model.Dto.FirstName" class="form-control" />
+                <span asp-validation-for="@Model.Dto.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Dto.LastName" class="control-label"></label>
+                <input asp-for="@Model.Dto.LastName" class="form-control" />
+                <span asp-validation-for="@Model.Dto.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Dto.Email" class="control-label"></label>
+                <input asp-for="@Model.Dto.Email" class="form-control" />
+                <span asp-validation-for="@Model.Dto.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Edit Profile" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

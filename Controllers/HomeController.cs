@@ -1,4 +1,5 @@
 ﻿using InnoGotchi_frontend.Models;
+using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,14 +8,17 @@ namespace InnoGotchi_frontend.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITokenManager _tokenManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITokenManager tokenManager)
         {
             _logger = logger;
+            _tokenManager = tokenManager;
         }
 
         public IActionResult Index()
         {
+            _tokenManager.RemoveTokenFromCookie(HttpContext);
             return View();
         }
 

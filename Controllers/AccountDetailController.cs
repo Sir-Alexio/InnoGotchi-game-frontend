@@ -1,4 +1,5 @@
 ﻿using InnoGotchi_backend.Models;
+using InnoGotchi_frontend.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -7,23 +8,21 @@ namespace InnoGotchi_frontend.Controllers
     [Route("account")]
     public class AccountDetailController : Controller
     {
-        IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
+
         public AccountDetailController(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClientFactory.CreateClient("Client");
         }
+        /// <summary>
+        /// How get personal-info from here
+        /// error here
+        /// </summary>
+        /// <returns></returns>
+        [Route("personal-info")]
         public async Task<IActionResult> Index()
-        {
-            HttpClient client = _httpClientFactory.CreateClient("Client");
-            
-            string? token = Request.Cookies["token"];
-
-            if (string.IsNullOrEmpty(token))
-            {
-                return BadRequest("No token");
-            }
-
-            HttpResponseMessage response = await client.GetAsync($"api/authorization/user/{token}");
+        {           
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user/{Request.Cookies["token"]}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -32,22 +31,16 @@ namespace InnoGotchi_frontend.Controllers
 
             var jsonUser = response.Content.ReadAsStringAsync().Result;
 
-            UserDto? user1 =  JsonSerializer.Deserialize<UserDto>(jsonUser);
+            UserDto? user =  JsonSerializer.Deserialize<UserDto>(jsonUser);
 
-            UserDto newUserTest = new UserDto
-            {
-                UserName = "2132113",
-                FirstName = "alexa",
-                LastName = "mokarova",
-                Avatar = "no Avatar",
-                Password = "qweqwe",
-                Email = "rtymail.com"
-            };
-            string jsonNewUser = JsonSerializer.Serialize(newUserTest);
+            return View("Index",user);
+        }
+        [Route("update")]
+        public IActionResult Update(RegistrationUser registrationUser)
+        {
+            UserDto dto = registrationUser.Dto;
 
-            UserDto? user2 = JsonSerializer.Deserialize<UserDto>(jsonNewUser);
-
-            return View("Index",user1);
+            return View();
         }
     }
 }

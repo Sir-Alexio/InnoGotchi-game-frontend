@@ -5,20 +5,24 @@ using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Services;
+using NuGet.Common;
 
 namespace InnoGotchi_frontend.Controllers
 {
-    public class LoginController : Controller, IValidationController
+    public class LoginController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly IValidator<UserDto> _validator;
-        private readonly ILogger<LoginController> _logger;
+        private readonly ITokenManager _tokenManager;
+        private readonly IValidationService _validation;
 
-        public LoginController(IHttpClientFactory httpClientFactory, IValidator<UserDto> validator, ILogger<LoginController> logger)
+        public LoginController(
+            IHttpClientFactory httpClientFactory,
+            ITokenManager tokenManager,
+            IValidationService validation)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
-            _validator = validator;
-            _logger = logger;
+            _tokenManager = tokenManager;
+            _validation = validation;
         }
         public IActionResult Index()
         {
@@ -30,55 +34,24 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<ActionResult> LogIn(UserDto dto)
         {
 
-            if (!Validation(dto).Result)
+            if (!_validation.Validation(dto,this.ModelState).Result)
             {
                 return View("Index",dto);
             }
 
             JsonContent content = JsonContent.Create(dto);
 
-            using HttpResponseMessage response = await _httpClient.PostAsync("api/authorization", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("api/authorization", content);
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError("Password is incorect");
-                return View("Index", dto);
+                return View("personal-info", dto);
             }
 
-            AddTokenToCookie(response.Content.ReadAsStringAsync().Result);
-            RemoveCookie("token");
-            return RedirectToAction("Index", "account");
+            _tokenManager.AddTokenToCookie(response.Content.ReadAsStringAsync().Result,HttpContext);
+            
+            return RedirectToAction("personal-info", "account");
         }
-
-        public async Task<bool> Validation(UserDto userDto)
-        {
-            ValidationResult validationResult = await _validator.ValidateAsync(userDto);
-
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(this.ModelState);
-
-                return false;
-            }
-
-            return true;
-        }
-        private void AddTokenToCookie(string token)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(1)
-            };
-            Response.Cookies.Append("token", token, cookieOptions);
-        }
-        private void RemoveCookie(string cookieName)
-        {
-            var options = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(-1)
-            };
-            Response.Cookies.Delete($"{cookieName}", options);
-        }
+        
     }
 }

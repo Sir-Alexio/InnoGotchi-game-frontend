@@ -11,6 +11,7 @@ using InnoGotchi_frontend.Controllers;
 using FluentValidation;
 using InnoGotchi_backend.Models;
 using InnoGotchi_frontend.Models;
+using InnoGotchi_frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServe
     ));
 
 builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<IValidationService, ValidationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient("Client", c => c.BaseAddress = new System.Uri("https://localhost:7198/"));
