@@ -79,6 +79,29 @@ namespace InnoGotchi_frontend.Controllers
             }
             return View("personal-info", _user);
         }
+
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordModel model, RegistrationUser registrationUser)
+        {
+            JsonContent content = JsonContent.Create(model);
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.PatchAsync("api/registration", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest("Error 404");
+            }
+            registrationUser.Dto = _user;
+            return View("Update", registrationUser);
+        }
+
+        [Route("change-password-view")]
+        public IActionResult ChangePasswordView()
+        {
+            return View("ChangePassword");
+        }
         private async Task<string> UpdateUploadedImage(RegistrationUser registrationUser)
         {
             IFormFile file = registrationUser.Image;
