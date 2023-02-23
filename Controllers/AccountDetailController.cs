@@ -1,6 +1,9 @@
 ﻿using InnoGotchi_backend.Models;
 using InnoGotchi_frontend.Models;
+using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace InnoGotchi_frontend.Controllers
@@ -9,20 +12,26 @@ namespace InnoGotchi_frontend.Controllers
     public class AccountDetailController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IValidationService _validationService;
 
-        public AccountDetailController(IHttpClientFactory httpClientFactory)
+        private static UserDto _user;
+
+        public AccountDetailController(IHttpClientFactory httpClientFactory,
+            IWebHostEnvironment environment,
+            IValidationService validation)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
+            _environment = environment;
+            _validationService = validation;
         }
-        /// <summary>
-        /// How get personal-info from here
-        /// error here
-        /// </summary>
-        /// <returns></returns>
+
         [Route("personal-info")]
         public async Task<IActionResult> Index()
-        {           
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user/{Request.Cookies["token"]}");
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -31,16 +40,76 @@ namespace InnoGotchi_frontend.Controllers
 
             var jsonUser = response.Content.ReadAsStringAsync().Result;
 
-            UserDto? user =  JsonSerializer.Deserialize<UserDto>(jsonUser);
+            _user =  JsonSerializer.Deserialize<UserDto>(jsonUser);
 
-            return View("Index",user);
+            return View("personal-info",_user);
         }
-        [Route("update")]
-        public IActionResult Update(RegistrationUser registrationUser)
-        {
-            UserDto dto = registrationUser.Dto;
 
-            return View();
+        [Route("edit-view")]
+        public IActionResult EditView(RegistrationUser registrationUser)
+        {
+            registrationUser.Dto = _user;
+
+            return View("Update", registrationUser);
+        }
+
+        [Route("update")]
+        public async Task<IActionResult> Update(RegistrationUser registrationUser)
+        {
+            registrationUser.Dto.Password = "hiden";
+
+            _user = registrationUser.Dto;
+
+            if (!_validationService.Validation(_user, this.ModelState).Result)
+            {
+                return View("Update", registrationUser);
+            }
+
+            _user.Avatar = UpdateUploadedImage(registrationUser).Result;
+
+            JsonContent content = JsonContent.Create(_user);
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.PatchAsync("api/account",content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest("Error 404");
+            }
+            return View("personal-info", _user);
+        }
+        private async Task<string> UpdateUploadedImage(RegistrationUser registrationUser)
+        {
+            IFormFile file = registrationUser.Image;
+
+            if (file == null || file.Length == 0)
+                return registrationUser.Dto.Avatar;
+
+            DeteleExistingFile(registrationUser.Dto.Avatar);
+
+            // create a unique filename
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+            // set the path to the file system
+            var filePath = Path.Combine(_environment.WebRootPath, "Images/avatars", fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return fileName;
+        }
+
+        private void DeteleExistingFile(string path)
+        {
+            var filePath = Path.Combine(_environment.WebRootPath, "Images/avatars", path);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
         }
     }
 }

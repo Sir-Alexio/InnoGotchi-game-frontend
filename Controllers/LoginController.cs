@@ -45,7 +45,8 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                return View("personal-info", dto);
+                await _validation.AddError(dto,"Wrong email or password",this.ModelState);
+                return View("Index", dto);
             }
 
             _tokenManager.AddTokenToCookie(response.Content.ReadAsStringAsync().Result,HttpContext);

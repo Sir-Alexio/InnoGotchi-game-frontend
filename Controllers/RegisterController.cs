@@ -48,7 +48,7 @@ namespace InnoGotchi_frontend.Controllers
             {
                 await _validationService.AddError(dto,"This Email is already exist", this.ModelState);
 
-                return View("Index", dto);   
+                return View("Index", registrationUser);   
             }
 
             return RedirectToAction("Index", "Login");
