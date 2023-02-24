@@ -14,16 +14,19 @@ namespace InnoGotchi_frontend.Controllers
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _environment;
         private readonly IValidationService _validationService;
+        private readonly IPasswordValidationService _PasswordService;
 
         private static UserDto _user;
 
         public AccountDetailController(IHttpClientFactory httpClientFactory,
             IWebHostEnvironment environment,
-            IValidationService validation)
+            IValidationService validation,
+            IPasswordValidationService passwordService)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
             _validationService = validation;
+            _PasswordService = passwordService;
         }
 
         [Route("personal-info")]
@@ -83,6 +86,11 @@ namespace InnoGotchi_frontend.Controllers
         [Route("change-password")]
         public async Task<ActionResult> ChangePassword(ChangePasswordModel model, RegistrationUser registrationUser)
         {
+            if (!_PasswordService.Validation(model,this.ModelState).Result)
+            {
+                return View("ChangePassword", model);
+            }
+
             JsonContent content = JsonContent.Create(model);
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
@@ -94,6 +102,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest("Error 404");
             }
             registrationUser.Dto = _user;
+
             return View("Update", registrationUser);
         }
 

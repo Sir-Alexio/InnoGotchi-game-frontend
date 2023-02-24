@@ -11,15 +11,17 @@ namespace InnoGotchi_frontend.Models
 {
     public class ValidationService : IValidationService
     {
-        private readonly IValidator<UserDto> _validator;
+        private readonly IValidator<UserDto> _userValidator;
+        
 
-        public ValidationService(IValidator<UserDto> validator)
+        public ValidationService(IValidator<UserDto> validator)//, IValidator<ChangePasswordModel> changePasswordValidator)
         {
-            _validator = validator;
+            _userValidator = validator;
+            //_changePasswordValidator = changePasswordValidator;
         }
         public async Task<bool> Validation(UserDto userDto, ModelStateDictionary modelState)
         {
-            ValidationResult validationResult = await _validator.ValidateAsync(userDto);
+            ValidationResult validationResult = await _userValidator.ValidateAsync(userDto);
 
             if (!validationResult.IsValid)
             {
@@ -30,11 +32,13 @@ namespace InnoGotchi_frontend.Models
 
             return true;
         }
+
+        
         public async Task AddError(UserDto userDto,string error, ModelStateDictionary modelstate)
         {
             modelstate.AddModelError(string.Empty,error);
 
-            ValidationResult validationResult = await _validator.ValidateAsync(userDto);
+            ValidationResult validationResult = await _userValidator.ValidateAsync(userDto);
 
             validationResult.AddToModelState(modelstate);
         }

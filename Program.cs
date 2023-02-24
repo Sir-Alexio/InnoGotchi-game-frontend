@@ -12,6 +12,7 @@ using FluentValidation;
 using InnoGotchi_backend.Models;
 using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Services;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,14 +20,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthorization();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers().AddFluentValidation();
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
 builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
+builder.Services.AddScoped<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
+
+
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
+builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient("Client", c => c.BaseAddress = new System.Uri("https://localhost:7198/"));
