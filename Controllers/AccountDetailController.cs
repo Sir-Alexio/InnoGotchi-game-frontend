@@ -1,4 +1,5 @@
 ﻿using InnoGotchi_backend.Models;
+using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc;

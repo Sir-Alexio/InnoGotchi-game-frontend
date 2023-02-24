@@ -7,9 +7,9 @@ using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace InnoGotchi_frontend.Models
+namespace InnoGotchi_frontend.Models.Services
 {
-    public class PasswordValidationService:IPasswordValidationService
+    public class PasswordValidationService : IPasswordValidationService
     {
         private readonly IValidator<ChangePasswordModel> _changePasswordValidator;
         public PasswordValidationService(IValidator<ChangePasswordModel> changePasswordValidator)
@@ -30,5 +30,5 @@ namespace InnoGotchi_frontend.Models
 
             return true;
         }
-}
+    }
 }

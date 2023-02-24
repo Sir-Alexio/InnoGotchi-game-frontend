@@ -1,20 +1,20 @@
 ﻿using FluentValidation;
-using InnoGotchi_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using InnoGotchi_backend.Models.Dto;
 
-namespace InnoGotchi_frontend.Models
+namespace InnoGotchi_frontend.Models.Services
 {
-    public class ValidationService : IValidationService
+    public class UserDtoValidationService : IValidationService
     {
         private readonly IValidator<UserDto> _userValidator;
-        
 
-        public ValidationService(IValidator<UserDto> validator)//, IValidator<ChangePasswordModel> changePasswordValidator)
+
+        public UserDtoValidationService(IValidator<UserDto> validator)//, IValidator<ChangePasswordModel> changePasswordValidator)
         {
             _userValidator = validator;
             //_changePasswordValidator = changePasswordValidator;
@@ -33,10 +33,10 @@ namespace InnoGotchi_frontend.Models
             return true;
         }
 
-        
-        public async Task AddError(UserDto userDto,string error, ModelStateDictionary modelstate)
+
+        public async Task AddError(UserDto userDto, string error, ModelStateDictionary modelstate)
         {
-            modelstate.AddModelError(string.Empty,error);
+            modelstate.AddModelError(string.Empty, error);
 
             ValidationResult validationResult = await _userValidator.ValidateAsync(userDto);
 

@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using InnoGotchi_backend.Models;
 
-namespace InnoGotchi_frontend.Models
+namespace InnoGotchi_frontend.Models.Validators
 {
-    public class ChangePasswordValidator: AbstractValidator<ChangePasswordModel>
+    public class ChangePasswordValidator : AbstractValidator<ChangePasswordModel>
     {
         public ChangePasswordValidator()
         {

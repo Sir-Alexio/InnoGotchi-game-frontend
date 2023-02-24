@@ -1,0 +1,25 @@
+﻿@model InnoGotchi_backend.Models.Dto.FarmDto
+@{
+    ViewData["Title"] = "CreateFarm";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<h1>CreateFarm</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div class="form-group">
+                <label for="FarmName">Farm name</label>
+                <input asp-for="FarmName" class="form-control" />
+                <span asp-validation-for="FarmName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" asp-controller="farm" asp-action="farm-info" value="Create my own farm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -13,6 +13,9 @@ using InnoGotchi_backend.Models;
 using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Services;
 using FluentValidation.AspNetCore;
+using InnoGotchi_frontend.Models.Validators;
+using InnoGotchi_frontend.Models.Services;
+using InnoGotchi_backend.Models.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +34,7 @@ builder.Services.AddScoped<IValidator<ChangePasswordModel>, ChangePasswordValida
 
 
 builder.Services.AddScoped<ITokenManager, TokenManager>();
-builder.Services.AddScoped<IValidationService, ValidationService>();
+builder.Services.AddScoped<IValidationService, UserDtoValidationService>();
 builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
 
 builder.Services.AddControllers();
