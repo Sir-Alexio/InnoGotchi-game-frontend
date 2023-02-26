@@ -30,7 +30,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest("Error 404");
             }
 
-            return RedirectToAction("account", "personal-info");
+            return RedirectToAction("personal-info","account");
         }
         public IActionResult Index()
         {
