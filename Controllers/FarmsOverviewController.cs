@@ -9,7 +9,6 @@ namespace InnoGotchi_frontend.Controllers
     public class FarmsOverviewController : Controller
     {
         private readonly HttpClient _httpClient;
-        private static UserDto _user;
 
         public FarmsOverviewController(IHttpClientFactory httpClientFactory)
         {
@@ -30,8 +29,27 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest("Error 404");
             }
 
-            return RedirectToAction("personal-info","account");
+            FarmDto? farm = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+
+            return View("FarmInfo", farm);
         }
+        [Route("get-logic")]
+        public async Task<IActionResult> GetLogic()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/farm");
+
+            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+
+            if (string.IsNullOrEmpty(dto.FarmName))
+            {
+                return View("CreateFarm");
+            }
+
+            return View("FarmInfo",dto);
+        }
+
         public IActionResult Index()
         {
             return View("CreateFarm");

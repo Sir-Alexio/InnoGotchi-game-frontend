@@ -1,0 +1,30 @@
+﻿@model InnoGotchi_backend.Models.Dto.FarmDto
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<h1>Farm</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="FarmName" class="control-label"></label>
+                <h5>@Model.FarmName</h5>
+            </div>
+            <div class="form-group">
+                <label asp-for="AlivePetsCount" class="control-label"></label>
+                <h5>@Model.AlivePetsCount</h5>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeadPetsCount" class="control-label"></label>
+                <h5>@Model.DeadPetsCount</h5>
+            </div>
+            
+        </form>
+    </div>
+</div>
