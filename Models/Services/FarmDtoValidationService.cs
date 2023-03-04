@@ -9,11 +9,11 @@ using InnoGotchi_backend.Models.Dto;
 
 namespace InnoGotchi_frontend.Models.Services
 {
-    public class UserDtoValidationService : IValidationService
+    public class FarmDtoValidationService
     {
         private readonly IValidator<UserDto> _userValidator;
 
-        public UserDtoValidationService(IValidator<UserDto> validator)
+        public FarmDtoValidationService(IValidator<UserDto> validator)
         {
             _userValidator = validator;
         }

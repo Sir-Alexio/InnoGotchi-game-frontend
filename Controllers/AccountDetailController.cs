@@ -75,7 +75,7 @@ namespace InnoGotchi_frontend.Controllers
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.PatchAsync("api/account",content);
+            HttpResponseMessage response = await _httpClient.PatchAsync("api/account/modify-user", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -96,11 +96,11 @@ namespace InnoGotchi_frontend.Controllers
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.PatchAsync("api/registration", content);
-
-            if (!response.IsSuccessStatusCode)
+            HttpResponseMessage response = await _httpClient.PatchAsync("api/account/change-password", content);
+            
+            if (((int)response.StatusCode) == 520)
             {
-                return BadRequest("Error 404");
+                return BadRequest("Wrong password");
             }
             registrationUser.Dto = _user;
 

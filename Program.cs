@@ -16,9 +16,21 @@ using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Models.Validators;
 using InnoGotchi_frontend.Models.Services;
 using InnoGotchi_backend.Models.Dto;
+using InnoGotchi_frontend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+
+
+//mistake here
+builder.Services.AddScoped<IValidationManager, ValidationManager>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<IValidationService, UserDtoValidationService>();
+builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
+
+builder.Services.AddScoped<IValidator<FarmDto>, FarmValidator>();
 
 builder.Services.AddAuthorization();
 // Add services to the container.
@@ -32,10 +44,6 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServe
 builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
 builder.Services.AddScoped<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
 
-
-builder.Services.AddScoped<ITokenManager, TokenManager>();
-builder.Services.AddScoped<IValidationService, UserDtoValidationService>();
-builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient("Client", c => c.BaseAddress = new System.Uri("https://localhost:7198/"));

@@ -42,7 +42,7 @@ namespace InnoGotchi_frontend.Controllers
             
             JsonContent content = JsonContent.Create(dto);
 
-            using HttpResponseMessage response = await _httpClient.PostAsync("api/registration", content);
+            using HttpResponseMessage response = await _httpClient.PostAsync("api/account/registration", content);
 
             if (!response.IsSuccessStatusCode)
             {
