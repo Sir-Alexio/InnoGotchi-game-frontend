@@ -98,10 +98,13 @@ namespace InnoGotchi_frontend.Controllers
 
             HttpResponseMessage response = await _httpClient.PatchAsync("api/account/change-password", content);
             
-            if (((int)response.StatusCode) == 520)
+            if (!response.IsSuccessStatusCode)
             {
-                return BadRequest("Wrong password");
+                CustomExeption? error = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                return BadRequest(error.Message);
             }
+
             registrationUser.Dto = _user;
 
             return View("Update", registrationUser);
