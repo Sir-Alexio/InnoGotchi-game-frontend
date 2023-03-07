@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
-using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using InnoGotchi_backend.Models.Dto;
 
-namespace InnoGotchi_frontend.Models.Services
+namespace InnoGotchi_frontend.Services
 {
     public class FarmDtoValidationService
     {

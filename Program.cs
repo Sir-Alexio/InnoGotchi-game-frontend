@@ -11,12 +11,11 @@ using InnoGotchi_frontend.Controllers;
 using FluentValidation;
 using InnoGotchi_backend.Models;
 using InnoGotchi_frontend.Models;
-using InnoGotchi_frontend.Services;
 using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Models.Validators;
-using InnoGotchi_frontend.Models.Services;
 using InnoGotchi_backend.Models.Dto;
-using InnoGotchi_frontend.Repositories;
+using InnoGotchi_frontend.Services.Abstract;
+using InnoGotchi_frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //mistake here
 builder.Services.AddScoped<IValidationManager, ValidationManager>();
-builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IValidationService, UserDtoValidationService>();
 builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
 

@@ -1,11 +1,12 @@
 ﻿using InnoGotchi_backend.Models;
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Models;
-using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
 using System.Net.Http.Headers;
 using System.Text.Json;
+
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -39,10 +40,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                return BadRequest("Error 404");
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return View("personal", _user);
             }
 
-            var jsonUser = response.Content.ReadAsStringAsync().Result;
+            string jsonUser = response.Content.ReadAsStringAsync().Result;
 
             _user =  JsonSerializer.Deserialize<UserDto>(jsonUser);
 
@@ -60,6 +65,7 @@ namespace InnoGotchi_frontend.Controllers
         [Route("update")]
         public async Task<IActionResult> Update(RegistrationUser registrationUser)
         {
+            //костыль
             registrationUser.Dto.Password = "hiden";
 
             _user = registrationUser.Dto;

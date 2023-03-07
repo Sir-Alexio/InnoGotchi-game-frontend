@@ -3,26 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
-using InnoGotchi_frontend.Services;
 using NuGet.Common;
 using InnoGotchi_backend.Models.Dto;
+using InnoGotchi_frontend.Services.Abstract;
+using InnoGotchi_frontend.Models;
+using InnoGotchi_frontend.Models.Validators;
+using InnoGotchi_backend.Models;
+using System.Text.Json;
 
 namespace InnoGotchi_frontend.Controllers
 {
     public class LoginController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly ITokenManager _tokenManager;
-        private readonly IValidationService _validation;
+        private readonly ITokenService _tokenService;
 
         public LoginController(
             IHttpClientFactory httpClientFactory,
-            ITokenManager tokenManager,
-            IValidationService validation)
+            ITokenService tokenManager)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
-            _tokenManager = tokenManager;
-            _validation = validation;
+            _tokenService = tokenManager;
         }
         public IActionResult Index()
         {
@@ -33,10 +34,11 @@ namespace InnoGotchi_frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> LogIn(UserDto dto)
         {
+            UserValidator validator = new UserValidator();
 
-            if (!_validation.Validation(dto,this.ModelState).Result)
+            if (!validator.Validate(dto).IsValid)
             {
-                return View("Index",dto);
+                return View("Index", dto);
             }
 
             JsonContent content = JsonContent.Create(dto);
@@ -45,11 +47,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                await _validation.AddError(dto,"Wrong email or password",this.ModelState);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
                 return View("Index", dto);
             }
 
-            _tokenManager.AddTokenToCookie(response.Content.ReadAsStringAsync().Result,HttpContext);
+            _tokenService.AddTokenToCookie(response.Content.ReadAsStringAsync().Result,HttpContext);
             
             return RedirectToAction("personal-info", "account");
         }

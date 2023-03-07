@@ -1,5 +1,5 @@
 ﻿using InnoGotchi_frontend.Models;
-using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,9 +8,9 @@ namespace InnoGotchi_frontend.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ITokenManager _tokenManager;
+        private readonly ITokenService _tokenManager;
 
-        public HomeController(ILogger<HomeController> logger, ITokenManager tokenManager)
+        public HomeController(ILogger<HomeController> logger, ITokenService tokenManager)
         {
             _logger = logger;
             _tokenManager = tokenManager;

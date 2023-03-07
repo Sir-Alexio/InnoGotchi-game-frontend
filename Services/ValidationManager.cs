@@ -2,10 +2,10 @@
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_backend.Repositories;
 using InnoGotchi_backend.Services;
-using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Services.Abstract;
 using System.ComponentModel.DataAnnotations;
 
-namespace InnoGotchi_frontend.Repositories
+namespace InnoGotchi_frontend.Services
 {
     public class ValidationManager : IValidationManager
     {

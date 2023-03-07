@@ -3,23 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
-using InnoGotchi_frontend.Services;
 using InnoGotchi_frontend.Models;
 using Microsoft.Extensions.Hosting;
 using InnoGotchi_backend.Models.Dto;
+using InnoGotchi_frontend.Services.Abstract;
+using InnoGotchi_frontend.Models.Validators;
+using System.Text.Json;
+using InnoGotchi_backend.Models;
 
 namespace InnoGotchi_frontend.Controllers
 {
     public class RegisterController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly IValidationService _validationService;
         private readonly IWebHostEnvironment _environment;
 
-        public RegisterController(IHttpClientFactory httpClientFactory, IValidationService validation, IWebHostEnvironment environment)
+        public RegisterController(IHttpClientFactory httpClientFactory, IWebHostEnvironment environment)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
-            _validationService = validation;
             _environment = environment;
         }
         public IActionResult Index()
@@ -35,24 +36,27 @@ namespace InnoGotchi_frontend.Controllers
 
             dto.Avatar = UploadImage(registrationUser.Image).Result;
 
-            if (!_validationService.Validation(dto, this.ModelState).Result)
+            UserValidator validator = new UserValidator();
+
+            if (!validator.Validate(dto).IsValid)
             {
                 return View("Index", registrationUser);
             }
-            
+
             JsonContent content = JsonContent.Create(dto);
 
             using HttpResponseMessage response = await _httpClient.PostAsync("api/account/registration", content);
 
             if (!response.IsSuccessStatusCode)
             {
-                await _validationService.AddError(dto,"This Email is already exist", this.ModelState);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
 
-                return View("Index", registrationUser);   
+                ViewBag.Message = errorMessage.Message;
+
+                return View("Index", registrationUser);
             }
 
             return RedirectToAction("Index", "Login");
-
         }
 
         private async Task<string> UploadImage(IFormFile file)

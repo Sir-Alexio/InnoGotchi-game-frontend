@@ -2,7 +2,7 @@
 using InnoGotchi_backend.Models.Dto;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace InnoGotchi_frontend.Services
+namespace InnoGotchi_frontend.Services.Abstract
 {
     public interface IValidationRepositoryBase<T>
     {

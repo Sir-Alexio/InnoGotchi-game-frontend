@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
-using InnoGotchi_frontend.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using InnoGotchi_frontend.Services.Abstract;
 
-namespace InnoGotchi_frontend.Repositories
+namespace InnoGotchi_frontend.Services
 {
-    public abstract class ValidationRepositoryBase<T>:IValidationRepositoryBase<T> where T : class
+    public abstract class ValidationRepositoryBase<T> : IValidationRepositoryBase<T> where T : class
     {
         private readonly IValidator<T> _validator;
 

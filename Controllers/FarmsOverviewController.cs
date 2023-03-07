@@ -2,8 +2,10 @@
 using System.Text.Json;
 using System.Net.Http.Headers;
 using InnoGotchi_backend.Models.Dto;
-using InnoGotchi_frontend.Services;
 using FluentValidation.AspNetCore;
+using InnoGotchi_frontend.Services.Abstract;
+using InnoGotchi_frontend.Models.Validators;
+using InnoGotchi_backend.Models;
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -11,18 +13,18 @@ namespace InnoGotchi_frontend.Controllers
     public class FarmsOverviewController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly IValidationManager _validationManager;
 
-        public FarmsOverviewController(IHttpClientFactory httpClientFactory, IValidationManager validationManager)
+        public FarmsOverviewController(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
-            _validationManager = validationManager;
         }
 
         [Route("farm-info")]
         public async Task<IActionResult> CreateFarm(FarmDto farmDto)
         {
-            if (!_validationManager.FarmValidator.Validation(farmDto, this.ModelState).Result)
+            FarmValidator validator = new FarmValidator();
+
+            if (!validator.Validate(farmDto).IsValid)
             {
                 return View("CreateFarm", farmDto);
             }
@@ -35,11 +37,9 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                //no message found
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
 
-                //this.ModelState.AddModelError(String.Empty,"This farm name is already exist!");
-                FluentValidation.Results.ValidationResult validationResult = await _validationManager.FarmValidator.AddError(farmDto, "This farm name is already exist!", this.ModelState);
-                //validationResult.AddToModelState()
+                ViewBag.Message = errorMessage.Message;
 
                 return View("CreateFarm", farmDto);
             }
@@ -63,11 +63,6 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             return View("FarmInfo",dto);
-        }
-
-        public IActionResult Index()
-        {
-            return View("CreateFarm");
         }
     }
 }
