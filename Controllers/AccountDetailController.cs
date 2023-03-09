@@ -1,9 +1,11 @@
 ﻿using InnoGotchi_backend.Models;
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Models;
+using InnoGotchi_frontend.Models.Validators;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -70,7 +72,9 @@ namespace InnoGotchi_frontend.Controllers
 
             _user = registrationUser.Dto;
 
-            if (!_validationService.Validation(_user, this.ModelState).Result)
+            UserValidator validator = new UserValidator();
+
+            if (!validator.Validate(_user).IsValid)
             {
                 return View("Update", registrationUser);
             }
@@ -85,7 +89,11 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                return BadRequest("Error 404");
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return View("Update", registrationUser);
             }
             return View("personal-info", _user);
         }
@@ -93,7 +101,9 @@ namespace InnoGotchi_frontend.Controllers
         [Route("change-password")]
         public async Task<ActionResult> ChangePassword(ChangePasswordModel model, RegistrationUser registrationUser)
         {
-            if (!_PasswordService.Validation(model,this.ModelState).Result)
+            ChangePasswordValidator validator = new ChangePasswordValidator();
+
+            if (!validator.Validate(model).IsValid)
             {
                 return View("ChangePassword", model);
             }
