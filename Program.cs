@@ -19,15 +19,9 @@ using InnoGotchi_frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-
-
 //mistake here
-builder.Services.AddScoped<IValidationManager, ValidationManager>();
+
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IValidationService, UserDtoValidationService>();
-builder.Services.AddScoped<IPasswordValidationService, PasswordValidationService>();
 
 builder.Services.AddScoped<IValidator<FarmDto>, FarmValidator>();
 
