@@ -17,20 +17,14 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _environment;
-        private readonly IValidationService _validationService;
-        private readonly IPasswordValidationService _PasswordService;
 
         private static UserDto _user;
 
         public AccountDetailController(IHttpClientFactory httpClientFactory,
-            IWebHostEnvironment environment,
-            IValidationService validation,
-            IPasswordValidationService passwordService)
+            IWebHostEnvironment environment)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
-            _validationService = validation;
-            _PasswordService = passwordService;
         }
 
         [Route("personal-info")]
