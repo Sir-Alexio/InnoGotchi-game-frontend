@@ -23,6 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+builder.Services.AddScoped<IImageService, ImageService>();
+
 builder.Services.AddScoped<IValidator<FarmDto>, FarmValidator>();
 
 builder.Services.AddAuthorization();
@@ -33,9 +35,6 @@ builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
-
-builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
-builder.Services.AddScoped<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
 
 
 builder.Services.AddControllers();

@@ -24,6 +24,9 @@
                 <label asp-for="DeadPetsCount" class="control-label"></label>
                 <h5>@Model.DeadPetsCount</h5>
             </div>
+            <div class="form-group">
+                <input type="submit" asp-controller="WebPet" asp-action="PetConstrator" value="Create pet" class="btn btn-primary" />
+            </div>
             
         </form>
     </div>

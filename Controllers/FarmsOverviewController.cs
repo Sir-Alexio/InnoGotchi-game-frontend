@@ -48,7 +48,7 @@ namespace InnoGotchi_frontend.Controllers
 
             return View("FarmInfo", farm);
         }
-        [Route("get-logic")]
+        [Route("farm-overview")]
         public async Task<IActionResult> GetLogic()
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);

@@ -1,0 +1,79 @@
+﻿@model ImageViewModel;
+@{
+    ViewData["Title"] = "PetConstrator";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<h1>Pet constrator</h1>
+
+<form asp-action="Index">
+<h2>Bodies:</h2>
+@*<div>
+    @foreach (var image in Model.Bodies)
+    {
+        <label for="radiobutton4">
+            <input type="radio" id="radiobutton4" name="radiobutton4" asp-for="@image.IsSelected" value=@true>
+            <img src="~/Images/Bodies/@image.ImagePath" width="200" height="200" />
+        </label>
+    }
+</div>
+
+<h2>Eyes:</h2>
+
+<div>
+    @foreach (var image in Model.Eyes)
+    {
+        <label for="radiobutton3">
+            <input type="radio" id="radiobutton3" name="radiobuttons3" asp-for="@image.IsSelected" value=@true>
+            <img src="~/Images/Eyes/@image.ImagePath" width="150" height="150" />
+        </label>
+    }
+</div>*@
+
+<label for="radiobutton4">
+    <input type="radio" id="radiobutton4" name="radiobutton4" asp-for="@Model.Bodies[0].IsSelected" value=@true>
+    <img src="~/Images/Bodies/body1.svg" width="200" height="200" />
+</label>
+
+<label for="radiobutton4">
+    <input type="radio" id="radiobutton4" name="radiobutton4" asp-for="@Model.Bodies[1].IsSelected" value=@true>
+    <img src="~/Images/Bodies/body2.svg" width="200" height="200" />
+</label>
+
+<div class="form-group">
+    <input type="submit" asp-controller="WebPet" asp-action="GetPet" value="Look at pet" class="btn btn-primary" />
+</div>
+</form>
+@*<div>
+    @foreach (var image in Model.Eyes)
+    {
+        <label>
+            <button type="submit" class="btn btn-primary">
+                <img src="~/Images/Eyes/@image.ImagePath" alt="Button Image" width="150" height="150">
+            </button>
+        </label>
+    }
+</div>
+
+<div>
+    @foreach (var image in Model.Noses)
+    {
+        <label>
+            <button type="submit" class="btn btn-primary">
+                <img src="~/Images/Noses/@image.ImagePath" alt="Button Image" width="150" height="150">
+            </button>
+        </label>
+    }
+</div>
+
+<div>
+    @foreach (var image in Model.Mouths)
+    {
+        <label>
+            <button type="submit" class="btn btn-primary">
+                <img src="~/Images/Mouths/@image.ImagePath" alt="Button Image" width="200" height="200">
+            </button>
+        </label>
+    }
+</div>
+*@
