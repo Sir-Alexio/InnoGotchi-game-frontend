@@ -5,22 +5,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InnoGotchi_frontend.Controllers
 {
+    [Route("pet")]
     public class WebPetController : Controller
     {
         private readonly IImageService _imageService;
+
         public WebPetController(IImageService imageService)
         {
             _imageService = imageService;
+            
         }
+        [Route("constractor")]
         public IActionResult PetConstrator()
         {
-            return View(_imageService.Images);
+            return View();
         }
 
-        public IActionResult GetPet(ImageViewModel model)
+        [Route("get-pet")]
+        public IActionResult GetPet()
         {
-            var a = model;
             return View("FarmInfo","farm");
+        }
+
+        public string CheckRadio(IFormCollection form)
+        {
+            return form["body"].ToString() + "   " + form["eye"].ToString();
         }
     }
 }
