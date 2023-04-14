@@ -1,4 +1,5 @@
-﻿using InnoGotchi_frontend.Models;
+﻿using InnoGotchi_backend.Models.DTOs;
+using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Services;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,11 @@ namespace InnoGotchi_frontend.Controllers
     public class WebPetController : Controller
     {
         private readonly IImageService _imageService;
+        
 
         public WebPetController(IImageService imageService)
         {
             _imageService = imageService;
-            
         }
         [Route("constractor")]
         public IActionResult PetConstrator()
@@ -21,15 +22,20 @@ namespace InnoGotchi_frontend.Controllers
             return View();
         }
 
-        [Route("get-pet")]
-        public IActionResult GetPet()
+        [Route("pet-overview")]
+        public IActionResult GetPet(PetDto pet)
         {
-            return View("FarmInfo","farm");
+            return View("PetOverview",pet);
         }
 
-        public string CheckRadio(IFormCollection form)
+        public IActionResult CheckRadio(IFormCollection form)
         {
-            return form["body"].ToString() + "   " + form["eye"].ToString();
+            PetDto pet = new PetDto();
+            pet.Body = form["body"].ToString();
+            pet.Nose = form["nose"].ToString();
+            pet.Eyes = form["eye"].ToString();
+            pet.Mouth = form["mouth"].ToString();
+            return RedirectToAction("pet-overview","pet",pet);
         }
     }
 }

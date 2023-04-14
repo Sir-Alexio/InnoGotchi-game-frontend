@@ -1,0 +1,91 @@
+﻿@model InnoGotchi_backend.Models.DTOs.PetDto
+@{
+    ViewData["Title"] = "PetOverview";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<h1>Pet overview</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            @{
+                if (string.IsNullOrEmpty(Model.Nose))
+                    ViewData["visibility"] = "hidden";
+                else
+                    ViewData["visibility"] = "visible";
+
+
+                if(Model.Body == "body1.svg")
+                {
+                    ViewData["topEye"] = "140px";
+                    ViewData["topMouth"] = "205px";
+                    ViewData["topNose"] = "190px";
+
+                    ViewData["leftEye"] = "235px";
+                    ViewData["leftMouth"] = "230px";
+                    ViewData["leftNose"] = "245px";
+                }
+                else if (Model.Body == "body2.svg")
+                {
+                    ViewData["topEye"] = "195px";
+                    ViewData["topMouth"] = "310px";
+                    ViewData["topNose"] = "270px";
+
+                    ViewData["leftEye"] = "255px";
+                    ViewData["leftMouth"] = "265px";
+                    ViewData["leftNose"] = "280px";
+                }
+                else if (Model.Body == "body3.svg")
+                {
+                    ViewData["topEye"] = "140px";
+                    ViewData["topMouth"] = "210px";
+                    ViewData["topNose"] = "195px";
+
+                    ViewData["leftEye"] = "265px";
+                    ViewData["leftMouth"] = "265px";
+                    ViewData["leftNose"] = "290px";
+                }
+                else if (Model.Body == "body4.svg")
+                {
+                    ViewData["topEye"] = "90px";
+                    ViewData["topMouth"] = "140px";
+                    ViewData["topNose"] = "145px";
+
+                    ViewData["leftEye"] = "270px";
+                    ViewData["leftMouth"] = "265px";
+                    ViewData["leftNose"] = "295px";
+                }
+                else if (Model.Body == "body5.svg")
+                {
+                    ViewData["topEye"] = "120px";
+                    ViewData["topMouth"] = "190px";
+                    ViewData["topNose"] = "180px";
+
+                    ViewData["leftEye"] = "350px";
+                    ViewData["leftMouth"] = "350px";
+                    ViewData["leftNose"] = "400px";
+                }
+            }
+
+            <div>
+                <h4>Here you can see how your pet looks like</h4>
+            </div>
+            <div style="position: relative;">
+                <img src="~/Images/Bodies/@Model.Body" width="700" height="700" />
+
+                <img src="~/Images/Eyes/@Model.Eyes" style="position: absolute; top: @ViewData["topEye"]; left: @ViewData["leftEye"];" width="150" height="150" />
+
+                <img src="~/Images/Mouths/@Model.Mouth" style="position: absolute; top: @ViewData["topMouth"]; left: @ViewData["leftMouth"];" width="150" height="150" />
+
+                <img src="~/Images/Noses/@Model.Nose" style="position: absolute; top: @ViewData["topNose"]; left: @ViewData["leftNose"]; visibility: @ViewData["visibility"];" width="100" height="100" />
+            </div>
+            <div class="form-group">
+                <input type="submit" asp-controller="pet" asp-action="constractor" value="Back" class="btn btn-primary" />
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
