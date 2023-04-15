@@ -7,7 +7,7 @@ namespace InnoGotchi_frontend.Validation
     {
         public PetValidator()
         {
-            RuleFor(x=>x.PetName).NotEmpty();
+            RuleFor(x=>x.PetName).NotNull();
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using InnoGotchi_backend.Models;
-using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_backend.Models.DTOs;
-using InnoGotchi_frontend.Models;
-using InnoGotchi_frontend.Models.Validators;
-using InnoGotchi_frontend.Services;
-using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_frontend.Validation;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
@@ -62,9 +57,6 @@ namespace InnoGotchi_frontend.Controllers
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            dto.HungerLevel = InnoGotchi_backend.Models.Enums.HungerLevel.Full;
-            dto.ThirstyLevel = InnoGotchi_backend.Models.Enums.ThirstyLevel.Full;
-
             JsonContent content = JsonContent.Create(_pet);
 
             HttpResponseMessage response = await _httpClient.PostAsync($"api/pet/new-pet", content);
@@ -78,7 +70,7 @@ namespace InnoGotchi_frontend.Controllers
                 return View("PetOverview", _pet);
             }
 
-            return View("FarmInfo", "farm");
+            return RedirectToAction("farm-overview", "farm");
         }
     }
 }

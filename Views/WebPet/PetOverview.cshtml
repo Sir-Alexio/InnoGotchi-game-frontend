@@ -9,6 +9,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @{
                 if (string.IsNullOrEmpty(Model.Nose))
                     ViewData["visibility"] = "hidden";
@@ -85,13 +86,12 @@
                 <div class="alert alert-danger">@ViewBag.Message</div>
             }
             <input asp-for="PetName" class="form-control" />
+            <span asp-validation-for="PetName" class="text-danger"></span>
             <div class="form-group">
                 <input type="submit" asp-controller="pet" asp-action="constractor" value="Back" class="btn btn-primary" />
                 <input type="submit" asp-controller="pet" asp-action="new-pet" value="Create pet" class="btn btn-primary" />
             </div>
             
-
-
         </form>
     </div>
 </div>
