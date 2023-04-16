@@ -18,6 +18,11 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient = httpClientFactory.CreateClient("Client");
         }
+        [Route("farm-overview")]
+        public IActionResult GetFarmOverviewPage()
+        {
+            return View("FarmOverviewPage");
+        }
 
         [Route("farm-info")]
         public async Task<IActionResult> CreateFarm(FarmDto farmDto)
@@ -48,7 +53,7 @@ namespace InnoGotchi_frontend.Controllers
 
             return View("FarmInfo", farm);
         }
-        [Route("farm-overview")]
+        [Route("my-own-farm")]
         public async Task<IActionResult> GetLogic()
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
