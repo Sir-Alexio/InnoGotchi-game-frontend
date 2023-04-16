@@ -21,6 +21,27 @@ namespace InnoGotchi_frontend.Controllers
                 _pet = new PetDto(); 
         }
 
+        [Route("current-pet/{petName}")]
+        public async  Task<ActionResult> GetCurrentPetView(string petName)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return View("GetPetListPage");
+            }
+
+            return View("CurrentPetOverview", JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result));
+        }
+
+
+
         [Route("constractor")]
         public IActionResult PetConstrator()
         {
@@ -33,6 +54,28 @@ namespace InnoGotchi_frontend.Controllers
             return View("PetOverview",pet);
         }
 
+        [Route("pet-list")]
+        public async Task<IActionResult> GetPetListPage()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/all-pets");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return View("FarmInfo","farm");
+            }
+
+            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
+
+            return View("GetPetListPage",pets);
+        }
+
+
         public IActionResult CheckRadio(IFormCollection form)
         {
             _pet.Body = form["body"].ToString();
@@ -44,7 +87,7 @@ namespace InnoGotchi_frontend.Controllers
         }
 
         [Route("new-pet")]
-        public async Task<IActionResult> OnPost(PetDto dto)
+        public async Task<IActionResult> CreateNewPet(PetDto dto)
         {
             PetValidator validator = new PetValidator();
 
@@ -70,7 +113,7 @@ namespace InnoGotchi_frontend.Controllers
                 return View("PetOverview", _pet);
             }
 
-            return RedirectToAction("farm-overview", "farm");
+            return RedirectToAction("my-own-farm", "farm");
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿@using InnoGotchi_backend.Models.DTOs;
+@model List<PetDto>
+@{
+    ViewData["Title"] = "GetPetListPage";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<th><h1>List of Pets</h1></th>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pet Name</th>
+            <th>Age</th>
+            <th>Hunger Level</th>
+            <th>Thirsty Level</th>
+            <th>Happy Days Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pet in Model)
+        {
+            <tr>
+                <td>@pet.PetName</td>
+                <td>@pet.Age</td>
+                <td>@pet.HungerLevel</td>
+                <td>@pet.ThirstyLevel</td>
+                <td>@pet.HappyDaysCount</td>
+                <td>
+                    <div>
+                        <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Index">
+    <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="Back" class="btn btn-secondary" />
+</form>
