@@ -22,7 +22,7 @@ namespace InnoGotchi_frontend.Controllers
         }
 
         [Route("current-pet/{petName}")]
-        public async  Task<ActionResult> GetCurrentPetView(string petName)
+        public async Task<ActionResult> GetCurrentPetView(string petName)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
@@ -40,7 +40,30 @@ namespace InnoGotchi_frontend.Controllers
             return View("CurrentPetOverview", JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result));
         }
 
+        [Route("feed-current-pet/{petName}")]
+        public async Task<IActionResult> FeedCurrentPet(string petName)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return RedirectToAction("pet-list");
+            }
+
+            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
+            
+            pet.LastHungerLevel = DateTime.Now;
+
+            JsonContent content = JsonContent.Create(pet);
+
+            response = await _httpClient.PostAsync("", content);
+        }
 
         [Route("constractor")]
         public IActionResult PetConstrator()
@@ -59,7 +82,7 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/all-pets");
+            HttpResponseMessage response = await _httpClient.GetAsync("api/pet/all-pets");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -97,7 +120,11 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             _pet.PetName = dto.PetName;
-            
+
+            _pet.AgeDate = DateTime.Now;
+            _pet.LastHungerLevel = DateTime.Now;
+            _pet.LastThirstyLevel = DateTime.Now;
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             JsonContent content = JsonContent.Create(_pet);

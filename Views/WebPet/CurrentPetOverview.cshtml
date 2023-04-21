@@ -6,7 +6,10 @@
 }
 
 <h1>Current pet overview</h1>
-<h2>@Model.PetName</h2>
+<div>
+<label asp-for="PetName" class="control-label"></label>
+<h4>@Model.PetName</h4>
+</div>
 
 <div class="row">
     <div class="col-md-4">
@@ -75,13 +78,30 @@
                 <h4>Here you can see how your pet looks like</h4>
             </div>
             <div style="position: relative;">
-                <img src="~/Images/Bodies/@Model.Body" width="700" height="700" />
 
-                <img src="~/Images/Eyes/@Model.Eyes" style="position: absolute; top: @ViewData["topEye"]; left: @ViewData["leftEye"];" width="150" height="150" />
+                <table>
+                    <tr>
+                        <td>
+                            <img src="~/Images/Bodies/@Model.Body" width="700" height="700" />
 
-                <img src="~/Images/Mouths/@Model.Mouth" style="position: absolute; top: @ViewData["topMouth"]; left: @ViewData["leftMouth"];" width="150" height="150" />
+                            <img src="~/Images/Eyes/@Model.Eyes" style="position: absolute; top: @ViewData["topEye"]; left: @ViewData["leftEye"];" width="150" height="150" />
 
-                <img src="~/Images/Noses/@Model.Nose" style="position: absolute; top: @ViewData["topNose"]; left: @ViewData["leftNose"]; visibility: @ViewData["visibility"];" width="100" height="100" />
+                            <img src="~/Images/Mouths/@Model.Mouth" style="position: absolute; top: @ViewData["topMouth"]; left: @ViewData["leftMouth"];" width="150" height="150" />
+
+                            <img src="~/Images/Noses/@Model.Nose" style="position: absolute; top: @ViewData["topNose"]; left: @ViewData["leftNose"]; visibility: @ViewData["visibility"];" width="100" height="100" />
+                        </td>
+                        <td>
+                            <label asp-for="AgeDate" class="control-label"></label>
+                            <h5>@Model.GetAge()</h5>
+                            <label asp-for="LastHungerLevel" class="control-label"></label>
+                            <h5>@Model.GetHungerLevel()</h5>
+                            <label asp-for="LastThirstyLevel" class="control-label"></label>
+                            <h5>@Model.GetThirstyLevel()</h5>
+                            <label asp-for="HappyDaysCount" class="control-label"></label>
+                            <h5>@Model.HappyDaysCount</h5>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <div class="form-group">
