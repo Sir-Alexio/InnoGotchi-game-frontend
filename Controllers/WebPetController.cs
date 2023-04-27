@@ -11,6 +11,7 @@ namespace InnoGotchi_frontend.Controllers
     public class WebPetController : Controller
     {
         private readonly HttpClient _httpClient;
+
         private static PetDto _pet;
 
         public WebPetController(IHttpClientFactory httpClient)
@@ -44,10 +45,14 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<IActionResult> FeedCurrentPet(string petName)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
-            
-            JsonContent content = JsonContent.Create(petName);
 
-            HttpResponseMessage response = await _httpClient.PatchAsync("api/pet/feed-current-pet", content);
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
+
+            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
+
+            JsonContent content = JsonContent.Create(pet);
+
+            response = await _httpClient.PatchAsync("api/pet/feed-current-pet", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -55,10 +60,35 @@ namespace InnoGotchi_frontend.Controllers
 
                 ViewBag.Message = errorMessage.Message;
 
-                return RedirectToAction("pet-list");
+                return RedirectToAction("pet-list", "pet");
             }
 
-            return RedirectToAction("pet-list");
+            return RedirectToAction("pet-list", "pet");
+        }
+
+        [Route("give-drink/{petName}")]
+        public async Task<IActionResult> GiveDrink(string petName)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
+
+            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
+
+            JsonContent content = JsonContent.Create(pet);
+
+            response = await _httpClient.PatchAsync("api/pet/give-drink", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Message = errorMessage.Message;
+
+                return RedirectToAction("pet-list", "pet");
+            }
+
+            return RedirectToAction("pet-list", "pet");
         }
 
         [Route("constractor")]
@@ -94,7 +124,6 @@ namespace InnoGotchi_frontend.Controllers
             return View("GetPetListPage",pets);
         }
 
-
         public IActionResult CheckRadio(IFormCollection form)
         {
             _pet.Body = form["body"].ToString();
@@ -116,10 +145,6 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             _pet.PetName = dto.PetName;
-
-            _pet.AgeDate = DateTime.Now;
-            _pet.LastHungerLevel = DateTime.Now;
-            _pet.LastThirstyLevel = DateTime.Now;
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 

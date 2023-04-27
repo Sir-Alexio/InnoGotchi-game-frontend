@@ -18,6 +18,7 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient = httpClientFactory.CreateClient("Client");
         }
+
         [Route("farm-overview")]
         public IActionResult GetFarmOverviewPage()
         {
@@ -53,6 +54,7 @@ namespace InnoGotchi_frontend.Controllers
 
             return View("FarmInfo", farm);
         }
+
         [Route("my-own-farm")]
         public async Task<IActionResult> GetLogic()
         {
@@ -68,6 +70,12 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             return View("FarmInfo",dto);
+        }
+
+        [Route("farm-detail")]
+        public IActionResult GetFarmDetailPage()
+        {
+            return RedirectToAction("all-users", "user");
         }
     }
 }

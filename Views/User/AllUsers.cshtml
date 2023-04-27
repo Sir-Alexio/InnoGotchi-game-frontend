@@ -1,0 +1,36 @@
+﻿@using InnoGotchi_backend.Models.Dto;
+@model List<UserDto>
+@{
+    ViewData["Title"] = "AllUsers";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+
+<th><h1>List of Pets</h1></th>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pet Name</th>
+            <th>Age</th>
+            <th>Hunger Level</th>
+            <th>Thirsty Level</th>
+            <th>Happy Days Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Index">
+    <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="Back" class="btn btn-secondary" />
+</form>

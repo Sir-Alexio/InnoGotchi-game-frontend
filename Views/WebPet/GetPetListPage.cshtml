@@ -29,12 +29,17 @@
                 <td>@pet.GetThirstyLevel()</td>
                 <td>@pet.HappyDaysCount</td>
                 <td>
-                    <div>
-                        <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
-                    </div>
-                    <div>
-                        <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
-                    </div>
+                    @{
+                        <div>
+                        @if (pet.GetHungerLevel()!=InnoGotchi_backend.Models.Enums.HungerLevel.Dead && pet.GetThirstyLevel()!=InnoGotchi_backend.Models.Enums.ThirstyLevel.Dead)
+                        {
+                                <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
+                                <a asp-controller="pet" asp-action="give-drink" asp-route-id=@pet.PetName>Give a drink</a>
+                        }
+                            <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
+                        </div>
+                    }
+                    
                 </td>
             </tr>
         }
