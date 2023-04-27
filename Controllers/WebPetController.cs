@@ -44,8 +44,10 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<IActionResult> FeedCurrentPet(string petName)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+            
+            JsonContent content = JsonContent.Create(petName);
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
+            HttpResponseMessage response = await _httpClient.PatchAsync("api/pet/feed-current-pet", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -56,13 +58,7 @@ namespace InnoGotchi_frontend.Controllers
                 return RedirectToAction("pet-list");
             }
 
-            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
-            
-            pet.LastHungerLevel = DateTime.Now;
-
-            JsonContent content = JsonContent.Create(pet);
-
-            response = await _httpClient.PostAsync("", content);
+            return RedirectToAction("pet-list");
         }
 
         [Route("constractor")]

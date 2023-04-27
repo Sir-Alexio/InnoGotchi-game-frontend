@@ -30,6 +30,9 @@
                 <td>@pet.HappyDaysCount</td>
                 <td>
                     <div>
+                        <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
+                    </div>
+                    <div>
                         <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
                     </div>
                 </td>
