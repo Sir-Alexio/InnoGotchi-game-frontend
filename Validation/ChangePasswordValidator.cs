@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using InnoGotchi_backend.Models;
+using InnoGotchi_backend.Models.Entity;
 
 namespace InnoGotchi_frontend.Models.Validators
 {

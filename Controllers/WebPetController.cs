@@ -1,5 +1,5 @@
-﻿using InnoGotchi_backend.Models;
-using InnoGotchi_backend.Models.DTOs;
+﻿using InnoGotchi_backend.Models.DTOs;
+using InnoGotchi_backend.Models.Entity;
 using InnoGotchi_frontend.Validation;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;

@@ -8,8 +8,8 @@ using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Models.Validators;
-using InnoGotchi_backend.Models;
 using System.Text.Json;
+using InnoGotchi_backend.Models.Entity;
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -47,14 +47,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
                 return View("Index", dto);
             }
 
-            _tokenService.AddTokenToCookie(response.Content.ReadAsStringAsync().Result,HttpContext);
+            _tokenService.AddTokenToCookie(await response.Content.ReadAsStringAsync(),HttpContext);
             
             return RedirectToAction("personal-info", "account");
         }

@@ -3,7 +3,7 @@ using InnoGotchi_frontend.Models;
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Models.Validators;
 using System.Text.Json;
-using InnoGotchi_backend.Models;
+using InnoGotchi_backend.Models.Entity;
 
 namespace InnoGotchi_frontend.Controllers
 {
