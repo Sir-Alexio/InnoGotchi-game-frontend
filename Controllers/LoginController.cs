@@ -47,14 +47,16 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
-
-                ViewBag.Message = errorMessage.Message;
+                string error = await response.Content.ReadAsStringAsync();
+                
+                ViewBag.Message = error;
 
                 return View("Index", dto);
             }
 
-            _tokenService.AddTokenToCookie(await response.Content.ReadAsStringAsync(),HttpContext);
+            _tokenService.AddTokenToCookie(await response.Content.ReadAsStringAsync(),HttpContext,"token",1);
+
+            string? refreshToken = Request.Cookies["refreshToken"];
             
             return RedirectToAction("personal-info", "account");
         }

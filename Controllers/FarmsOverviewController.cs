@@ -60,7 +60,7 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/farm");
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/farm/current-farm");
 
             FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
 

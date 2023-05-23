@@ -1,25 +1,14 @@
 using InnoGotchi_backend.DataContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using NuGet.Configuration;
-using InnoGotchi_frontend.Controllers;
 using FluentValidation;
-using InnoGotchi_backend.Models;
-using InnoGotchi_frontend.Models;
 using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Models.Validators;
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//mistake here
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

@@ -17,19 +17,24 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _environment;
+        private readonly ITokenService _tokenService;
 
         private static UserDto _user;
 
         public AccountDetailController(IHttpClientFactory httpClientFactory,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            ITokenService tokenService)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
+            _tokenService = tokenService;
         }
 
         [Route("personal-info")]
         public async Task<IActionResult> Index()
         {
+            bool isTokenValid = _tokenService.IsTokenValid(context: HttpContext);
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user");
