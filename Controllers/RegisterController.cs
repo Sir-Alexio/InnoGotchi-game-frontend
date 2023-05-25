@@ -4,18 +4,21 @@ using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Models.Validators;
 using System.Text.Json;
 using InnoGotchi_backend.Models.Entity;
+using InnoGotchi_frontend.Services.Abstract;
 
 namespace InnoGotchi_frontend.Controllers
 {
     public class RegisterController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly ITokenService _tokenService;
         private readonly IWebHostEnvironment _environment;
 
-        public RegisterController(IHttpClientFactory httpClientFactory, IWebHostEnvironment environment)
+        public RegisterController(IHttpClientFactory httpClientFactory, IWebHostEnvironment environment, ITokenService tokenSevice)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
+            _tokenService = tokenSevice;
         }
         public IActionResult Index()
         {
@@ -36,6 +39,9 @@ namespace InnoGotchi_frontend.Controllers
             {
                 return View("Index", registrationUser);
             }
+
+            //refresh token
+            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             JsonContent content = JsonContent.Create(dto);
 

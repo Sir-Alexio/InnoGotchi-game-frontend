@@ -10,6 +10,7 @@ using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Models.Validators;
 using System.Text.Json;
 using InnoGotchi_backend.Models.Entity;
+using System.Net.Http.Headers;
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -56,8 +57,6 @@ namespace InnoGotchi_frontend.Controllers
 
             _tokenService.AddTokenToCookie(await response.Content.ReadAsStringAsync(),HttpContext,"token",1);
 
-            string? refreshToken = Request.Cookies["refreshToken"];
-            
             return RedirectToAction("personal-info", "account");
         }
         

@@ -13,8 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddScoped<IValidator<FarmDto>, FarmValidator>();
+
 
 builder.Services.AddAuthorization();
 // Add services to the container.

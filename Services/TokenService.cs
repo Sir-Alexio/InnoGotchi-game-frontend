@@ -2,12 +2,20 @@
 using InnoGotchi_backend.Models.Enums;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Text.Json;
 namespace InnoGotchi_frontend.Services
 {
     public class TokenService : ITokenService
     {
+        private readonly HttpClient _httpClient;
+        public TokenService(IHttpClientFactory httpClientFactory)
+        {
+            _httpClient = httpClientFactory.CreateClient("Client");
+        }
         public void AddTokenToCookie(string token, HttpContext context,string tokenName,int exipierDays)
         {
             var cookieOptions = new CookieOptions
@@ -29,6 +37,27 @@ namespace InnoGotchi_frontend.Services
             context.Response.Cookies.Delete("token", options);
         }
 
+        public async Task<string> RefreshTokenAsync(HttpContext context)
+        {
+            foreach (var cookie in context.Request.Cookies) { }
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", context.Request.Cookies["token"]);
+            // Prepare the refresh token request
+            HttpResponseMessage response = await _httpClient.PostAsync("api/authorization/refresh-token", null);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Extract the new access token from the response
+                throw new CustomExeption("No new Acces token found");
+            }
+
+            // Handle refresh token request failure
+            // ...
+            string newAccessToken = await response.Content.ReadAsStringAsync();
+
+            return newAccessToken;  
+        }
+
         public bool IsTokenValid(HttpContext context)
         {
             string? token = context.Request.Cookies["token"];
@@ -42,9 +71,9 @@ namespace InnoGotchi_frontend.Services
 
             // Get the token's expiration date/time
             DateTime expirationDateTime = jwtToken.ValidTo;
-
+            expirationDateTime = expirationDateTime.AddMinutes(1);
             // Check if the token has expired
-            return expirationDateTime < DateTime.UtcNow;
+            return !(expirationDateTime < DateTime.UtcNow);
         }
     }
 }

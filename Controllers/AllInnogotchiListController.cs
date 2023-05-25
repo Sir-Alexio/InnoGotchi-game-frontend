@@ -8,6 +8,8 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.Text.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using InnoGotchi_frontend.Services;
+using InnoGotchi_frontend.Services.Abstract;
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -15,20 +17,20 @@ namespace InnoGotchi_frontend.Controllers
     public class AllInnogotchiListController : Controller
     {
         private readonly HttpClient _client;
+        private readonly ITokenService _tokenService;
 
-        public AllInnogotchiListController(IHttpClientFactory clientFactory)
+        public AllInnogotchiListController(IHttpClientFactory clientFactory, ITokenService tokenService)
         {
             _client = clientFactory.CreateClient("Client");
+            _tokenService = tokenService;
         }
 
         public async Task<ActionResult> Index()
         {
-            IRequestCookieCollection cookie = HttpContext.Request.Cookies;
+            //refresh token
+            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
-            if (cookie.TryGetValue("token",out string? token))
-            {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _client.GetAsync("api/pet");
 
