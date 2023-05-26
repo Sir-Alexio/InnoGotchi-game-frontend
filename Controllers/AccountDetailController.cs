@@ -33,15 +33,11 @@ namespace InnoGotchi_frontend.Controllers
         [Route("personal-info")]
         public async Task<IActionResult> Index()
         {
-            foreach (var cookue in Request.Cookies)
-            {
-
-            }
             //refresh token
             if (!_tokenService.IsTokenValid(context: HttpContext)){ _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1);}
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
-
+            
             HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user");
 
             if (!response.IsSuccessStatusCode)
@@ -50,7 +46,7 @@ namespace InnoGotchi_frontend.Controllers
 
                 ViewBag.Message = errorMessage.Message;
 
-                return View("personal", _user);
+                return View("personal-info", _user);
             }
 
             string jsonUser = response.Content.ReadAsStringAsync().Result;

@@ -39,11 +39,13 @@ namespace InnoGotchi_frontend.Services
 
         public async Task<string> RefreshTokenAsync(HttpContext context)
         {
-            foreach (var cookie in context.Request.Cookies) { }
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", context.Request.Cookies["token"]);
+
+            string refreshToken = context.Request.Cookies["refreshToken"];
+
             // Prepare the refresh token request
-            HttpResponseMessage response = await _httpClient.PostAsync("api/authorization/refresh-token", null);
+            HttpResponseMessage response = await _httpClient.PostAsync($"api/authorization/refresh-token?refreshToken={refreshToken}", null);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -51,8 +53,6 @@ namespace InnoGotchi_frontend.Services
                 throw new CustomExeption("No new Acces token found");
             }
 
-            // Handle refresh token request failure
-            // ...
             string newAccessToken = await response.Content.ReadAsStringAsync();
 
             return newAccessToken;  
@@ -71,7 +71,7 @@ namespace InnoGotchi_frontend.Services
 
             // Get the token's expiration date/time
             DateTime expirationDateTime = jwtToken.ValidTo;
-            expirationDateTime = expirationDateTime.AddMinutes(1);
+            expirationDateTime = expirationDateTime.AddMinutes(4);
             // Check if the token has expired
             return !(expirationDateTime < DateTime.UtcNow);
         }

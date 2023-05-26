@@ -44,7 +44,7 @@ namespace InnoGotchi_frontend.Controllers
 
             JsonContent content = JsonContent.Create(dto);
 
-            HttpResponseMessage response = await _httpClient.PostAsync("api/authorization", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("api/authorization/login", content);
 
             if (!response.IsSuccessStatusCode)
             {
