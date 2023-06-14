@@ -34,7 +34,7 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<IActionResult> Index()
         {
             //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)){ _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1);}
+            //if (!_tokenService.IsTokenValid(context: HttpContext)){ _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1);}
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
             
@@ -68,7 +68,7 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<IActionResult> Update(RegistrationUser registrationUser)
         {
             //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
+            //if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             //костыль
             registrationUser.Dto.Password = "hiden";
@@ -112,7 +112,7 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
+            //if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             JsonContent content = JsonContent.Create(model);
 

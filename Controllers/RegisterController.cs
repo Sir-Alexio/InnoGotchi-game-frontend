@@ -40,9 +40,6 @@ namespace InnoGotchi_frontend.Controllers
                 return View("Index", registrationUser);
             }
 
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             JsonContent content = JsonContent.Create(dto);
 
             using HttpResponseMessage response = await _httpClient.PostAsync("api/account/registration", content);

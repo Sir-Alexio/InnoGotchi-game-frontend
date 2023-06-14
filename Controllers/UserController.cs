@@ -21,9 +21,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("all-users")]
         public async Task<IActionResult> GetAllUsers()
         {
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync("api/user/all-users");

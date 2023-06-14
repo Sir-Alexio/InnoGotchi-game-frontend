@@ -37,14 +37,11 @@ namespace InnoGotchi_frontend.Controllers
                 return View("CreateFarm", farmDto);
             }
 
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             JsonContent content = JsonContent.Create(farmDto);
 
-            HttpResponseMessage response = await _httpClient.PostAsync($"api/farm",content);
+            HttpResponseMessage response = await _httpClient.PostAsync($"api/farm/new-farm",content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -63,13 +60,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("my-own-farm")]
         public async Task<IActionResult> GetLogic()
         {
-            foreach (var cookue in Request.Cookies)
-            {
-
-            }
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/farm/current-farm");

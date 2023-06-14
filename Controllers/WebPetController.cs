@@ -28,9 +28,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("current-pet/{petName}")]
         public async Task<ActionResult> GetCurrentPetView(string petName)
         {
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
@@ -50,9 +47,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("feed-current-pet/{petName}")]
         public async Task<IActionResult> FeedCurrentPet(string petName)
         {
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
@@ -78,8 +72,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("give-drink/{petName}")]
         public async Task<IActionResult> GiveDrink(string petName)
         {
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
@@ -118,9 +110,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("pet-list")]
         public async Task<IActionResult> GetPetListPage()
         {
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync("api/pet/all-pets");
@@ -158,9 +147,6 @@ namespace InnoGotchi_frontend.Controllers
             {
                 return View("PetOverview", _pet);
             }
-
-            //refresh token
-            if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             _pet.PetName = dto.PetName;
 

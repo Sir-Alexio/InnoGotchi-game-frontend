@@ -71,7 +71,7 @@ namespace InnoGotchi_frontend.Services
 
             // Get the token's expiration date/time
             DateTime expirationDateTime = jwtToken.ValidTo;
-            expirationDateTime = expirationDateTime.AddMinutes(4);
+            expirationDateTime = expirationDateTime.AddDays(1);
             // Check if the token has expired
             return !(expirationDateTime < DateTime.UtcNow);
         }
