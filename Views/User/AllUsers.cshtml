@@ -4,19 +4,15 @@
     ViewData["Title"] = "AllUsers";
     Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
 }
-
-<th><h1>List of Pets</h1></th>
+<link rel="stylesheet" href="~/css//BlueButton.css" />
+<th><h1>List of Users</h1></th>
 
 
 <table class="table">
     <thead>
         <tr>
-            <th>Pet Name</th>
-            <th>Age</th>
-            <th>Hunger Level</th>
-            <th>Thirsty Level</th>
-            <th>Happy Days Count</th>
-            <th>Actions</th>
+            <th>User name</th>
+            <th>User email</th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +21,7 @@
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                
+                <td><a asp-controller="user" asp-action="invite-friend" asp-route-id=@user.Email class="blue-button">Invite</a></td>
             </tr>
         }
     </tbody>

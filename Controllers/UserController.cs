@@ -34,5 +34,40 @@ namespace InnoGotchi_frontend.Controllers
 
             return View("AllUsers", users);
         }
+
+        [Route("user-info/{email}")]
+        public async Task<IActionResult> GetUserInfo(string email)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/user/user-info/{email}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            UserDto? user = JsonSerializer.Deserialize<UserDto>(response.Content.ReadAsStringAsync().Result);
+
+            return View("User-info", user);
+
+        }
+
+        [Route("invite-friend/{email}")]
+        public async Task<IActionResult> InviteFriend(string email)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync("api/user/all-users");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+
+            return View("AllUsers", users);
+        }
     }
 }
