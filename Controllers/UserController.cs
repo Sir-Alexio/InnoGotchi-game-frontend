@@ -23,7 +23,7 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.GetAsync("api/user/all-users");
+            HttpResponseMessage response = await _httpClient.GetAsync("api/user/users-with-no-invited");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -33,24 +33,6 @@ namespace InnoGotchi_frontend.Controllers
             List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
 
             return View("AllUsers", users);
-        }
-
-        [Route("user-info/{email}")]
-        public async Task<IActionResult> GetUserInfo(string email)
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
-
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/user/user-info/{email}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return BadRequest();
-            }
-
-            UserDto? user = JsonSerializer.Deserialize<UserDto>(response.Content.ReadAsStringAsync().Result);
-
-            return View("User-info", user);
-
         }
 
         [Route("invite-friend/{email}")]
@@ -58,16 +40,16 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            HttpResponseMessage response = await _httpClient.GetAsync("api/user/all-users");
+            JsonContent content = JsonContent.Create(new { Email = email });
+
+            HttpResponseMessage response = await _httpClient.PatchAsync($"api/user/invite-user?inviteUserEmail={email}", null);
 
             if (!response.IsSuccessStatusCode)
             {
                 return BadRequest();
             }
 
-            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
-
-            return View("AllUsers", users);
+            return RedirectToAction("all-users","user");
         }
     }
 }
