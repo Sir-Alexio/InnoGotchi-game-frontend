@@ -40,8 +40,6 @@ namespace InnoGotchi_frontend.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
-            JsonContent content = JsonContent.Create(new { Email = email });
-
             HttpResponseMessage response = await _httpClient.PatchAsync($"api/user/invite-user?inviteUserEmail={email}", null);
 
             if (!response.IsSuccessStatusCode)
@@ -50,6 +48,61 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             return RedirectToAction("all-users","user");
+        }
+
+        [Route("find-user")]
+        public async Task<IActionResult> FindUserByEmail(string email)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/user/find-user/{email}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string error = await response.Content.ReadAsStringAsync();
+
+                ViewBag.Message = error;
+
+                return View("AllUsers",new List<UserDto>());
+            }
+
+            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+
+            return View("AllUsers", users);
+        }
+
+        [Route("collaborators")]
+        public async Task<IActionResult> GetMyColaborators()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/user/collaborators");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            List<UserDto>? collaborators = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+
+            return View("Collaborators", collaborators);
+        }
+
+        [Route("i-am-collaborator")]
+        public async Task<IActionResult> GetUserIAmCollaborator()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/user/i-am-collaborator");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            List<UserDto>? iAmCollab = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+
+            return View("IAmCollaborator", iAmCollab);
         }
     }
 }

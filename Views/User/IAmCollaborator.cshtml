@@ -1,0 +1,40 @@
+﻿@using InnoGotchi_backend.Models.Dto;
+@model List<UserDto>
+@{
+    ViewData["Title"] = "IAmColaborator";
+    Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
+}
+<link rel="stylesheet" href="~/css//BlueButton.css" />
+<h1>Users, where i am collaborator</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Email</th>
+            <th>User Name</th>
+            <th>First name</th>
+            <th>Last name</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Images/avatars/@user.Avatar" width="50" height="50" />
+                </td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td><a asp-controller="user" asp-action="invite-friend" asp-route-id=@user.Email class="blue-button">Farm</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Index">
+    <input type="submit" asp-controller="farm" asp-action="farm-overview" value="Back" class="btn btn-secondary" />
+</form>

@@ -2,9 +2,9 @@
 @{
     ViewData["Title"] = "FarmOverviewPage";
     Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
-}}
+}
 
-<div style="text-align:center; ">
+<div style="text-align: center; padding-top: 20px;">
     <h1>Farms overview page</h1>
 </div>
 
@@ -26,22 +26,7 @@
 
 <form asp-action="Index">
 <div class="container">
-    <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="My own farm" class="btn btn-primary" />
-    <input type="submit" asp-controller="farm" asp-action="farm-info" value="Farms, where i'm colabarator" class="btn btn-secondary" />
+        <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="My own farm" class="btn btn-primary" style="margin-right: 10px;" />
+        <input type="submit" asp-controller="user" asp-action="i-am-collaborator" value="Farms, where i'm colabarator" class="btn btn-primary" style="margin-right: 10px;" />
 </div>
 </form>
-@*<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-*@
-            @*<div style="text-align:center;">
-                <button type="button" class="btn btn-primary">Button 1</button>
-                <button type="button" class="btn btn-secondary">Button 2</button>
-            </div>*@
-            @*<div style="text-align:center;">
-                <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="My own farm" class="btn btn-primary" />
-                 <input type="submit" asp-controller="farm" asp-action="farm-info" value="Farms, where i'm colabarator" class="btn btn-secondary" />
-            </div>*@
-@*        </form>
-    </div>
-</div>*@
