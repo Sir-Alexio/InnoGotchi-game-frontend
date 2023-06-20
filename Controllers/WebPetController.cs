@@ -15,6 +15,7 @@ namespace InnoGotchi_frontend.Controllers
         private readonly ITokenService _tokenService;
 
         private static PetDto _pet;
+        private static string _farmName;
 
         public WebPetController(IHttpClientFactory httpClient,ITokenService tokenSevice)
         {
@@ -45,7 +46,22 @@ namespace InnoGotchi_frontend.Controllers
         }
 
         [Route("feed-current-pet/{petName}")]
-        public async Task<IActionResult> FeedCurrentPet(string petName)
+        public async Task<IActionResult> FeedMyPet(string petName)
+        {
+            await FeedPet(petName);
+            return RedirectToAction("pet-list", "pet");
+        }
+
+        [Route("feed-foreign-pet/{petName}")]
+        public async Task<IActionResult> FeedForeignPet(string petName)
+        {
+            await FeedPet(petName);
+            string encodedFarmName = Uri.EscapeDataString(_farmName);
+            return Redirect($"/pet/foreign-pet-list/{encodedFarmName}");
+        }
+
+        [Route("feed-current-pet/{petName}")]
+        private async Task<IActionResult> FeedPet(string petName)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
@@ -66,13 +82,27 @@ namespace InnoGotchi_frontend.Controllers
                 return RedirectToAction("pet-list", "pet");
             }
 
+            return Ok();
+
+        }
+
+        [Route("give-drink-to-my-pet/{petName}")]
+        public async Task<IActionResult> GiveDrinkToMyPet(string petName)
+        {
+            await GiveDrink(petName);
             return RedirectToAction("pet-list", "pet");
         }
 
-        [Route("give-drink/{petName}")]
-        public async Task<IActionResult> GiveDrink(string petName)
+        [Route("give-drink-to-foreign-pet/{petName}")]
+        public async Task<IActionResult> GiveDrinkToForeignPet(string petName)
         {
+            await GiveDrink(petName);
+            string encodedFarmName = Uri.EscapeDataString(_farmName);
+            return Redirect($"/pet/foreign-pet-list/{encodedFarmName}");
+        }
 
+        private async Task<IActionResult> GiveDrink(string petName)
+        {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
@@ -85,14 +115,10 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
-
-                ViewBag.Message = errorMessage.Message;
-
-                return RedirectToAction("pet-list", "pet");
+                return BadRequest();
             }
 
-            return RedirectToAction("pet-list", "pet");
+            return Ok();
         }
 
         [Route("constractor")]
@@ -123,9 +149,34 @@ namespace InnoGotchi_frontend.Controllers
                 return View("FarmInfo","farm");
             }
 
+            
             List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
 
+            ViewBag.type = "current";
+            
             return View("GetPetListPage",pets);
+        }
+
+        [Route("foreign-pet-list/{farmName}")]
+        public async Task<IActionResult> GetForeignPetListPage(string farmName)
+        {
+            //костыль
+            _farmName = farmName;
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/foreign-all-pets/{farmName}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest("Some error on client!");
+            }
+
+            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
+
+            ViewBag.type = "foreign";
+            
+            return View("GetPetListPage", pets);
         }
 
         public IActionResult CheckRadio(IFormCollection form)

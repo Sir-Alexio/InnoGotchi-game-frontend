@@ -79,5 +79,22 @@ namespace InnoGotchi_frontend.Controllers
         {
             return RedirectToAction("all-users", "user");
         }
+
+        [Route("foreign-farm/{email}")]
+        public async Task<IActionResult> GetForeignFarm(string email)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/farm/foreign-farm/{email}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+
+            return View("ForeignFarm", dto);
+        }
     }
 }

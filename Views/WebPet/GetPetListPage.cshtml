@@ -33,8 +33,17 @@
                         <div>
                         @if (pet.GetHungerLevel()!=InnoGotchi_backend.Models.Enums.HungerLevel.Dead && pet.GetThirstyLevel()!=InnoGotchi_backend.Models.Enums.ThirstyLevel.Dead)
                         {
-                                <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
-                                <a asp-controller="pet" asp-action="give-drink" asp-route-id=@pet.PetName>Give a drink</a>
+                                if (ViewBag.type=="current")
+                                {
+                                    <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
+                                    <a asp-controller="pet" asp-action="give-drink-to-my-pet" asp-route-id=@pet.PetName>Give a drink</a>
+                                }
+                                else if (ViewBag.type == "foreign")
+                                {
+                                    <a asp-controller="pet" asp-action="feed-foreign-pet" asp-route-id=@pet.PetName>Feed</a>
+                                    <a asp-controller="pet" asp-action="give-drink-to-foreign-pet" asp-route-id=@pet.PetName>Give a drink</a>
+                                }
+                                
                         }
                             <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
                         </div>
