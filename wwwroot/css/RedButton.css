@@ -1,12 +1,12 @@
 ﻿body {
 }
-.blue-button {
-    background-color: blue;
+.red-button {
+    background-color: red;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
     text-decoration: none;
+    /* Add any other desired styles */
 }
-.small-label {
-    font-size: 14px;
-}
+
+

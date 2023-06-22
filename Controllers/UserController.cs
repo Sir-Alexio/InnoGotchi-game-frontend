@@ -104,5 +104,21 @@ namespace InnoGotchi_frontend.Controllers
 
             return View("IAmCollaborator", iAmCollab);
         }
+
+        [Route("delete-collaborator/{email}")]
+        public async Task<IActionResult> GetUserIAmCollaborator(string email)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
+
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"api/user/collaborators/{email}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("collaborators", "user");
+        }
+
     }
 }

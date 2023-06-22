@@ -136,6 +136,8 @@ namespace InnoGotchi_frontend.Controllers
         [Route("pet-list")]
         public async Task<IActionResult> GetPetListPage()
         {
+            ViewBag.petType = "current";
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
 
             HttpResponseMessage response = await _httpClient.GetAsync("api/pet/all-pets");
@@ -160,6 +162,7 @@ namespace InnoGotchi_frontend.Controllers
         [Route("foreign-pet-list/{farmName}")]
         public async Task<IActionResult> GetForeignPetListPage(string farmName)
         {
+            ViewBag.petType = "foreign";
             //костыль
             _farmName = farmName;
 
@@ -217,6 +220,13 @@ namespace InnoGotchi_frontend.Controllers
             }
 
             return RedirectToAction("my-own-farm", "farm");
+        }
+
+        [Route("back-to-foreign-pet-list")]
+        public IActionResult BackToForeign()
+        {
+            string encodedFarmName = Uri.EscapeDataString(_farmName);
+            return Redirect($"/pet/foreign-pet-list/{encodedFarmName}");
         }
     }
 }

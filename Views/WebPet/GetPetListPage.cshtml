@@ -4,7 +4,9 @@
     ViewData["Title"] = "GetPetListPage";
     Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
 }
-
+<link rel="stylesheet" href="~/css//YellowButton.css" />
+<link rel="stylesheet" href="~/css//BlueButton.css" />
+<link rel="stylesheet" href="~/css//GrayButton.css" />
 <th><h1>List of Pets</h1></th>
 
 
@@ -24,7 +26,16 @@
         {
             <tr>
                 <td>@pet.PetName</td>
-                <td>@pet.GetAge()</td>
+                <td>
+                    @if (pet.GetAge() == 0)
+                    {
+                        <span class="blue-button disabled small-label">newborn</span>
+                    }
+                    else
+                    {
+                        @pet.GetAge()
+                    }
+                </td>
                 <td>@pet.GetHungerLevel()</td>
                 <td>@pet.GetThirstyLevel()</td>
                 <td>@pet.HappyDaysCount</td>
@@ -35,17 +46,17 @@
                         {
                                 if (ViewBag.type=="current")
                                 {
-                                    <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName>Feed</a>
-                                    <a asp-controller="pet" asp-action="give-drink-to-my-pet" asp-route-id=@pet.PetName>Give a drink</a>
+                                    <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName class="yellow-button">Feed</a>
+                                    <a asp-controller="pet" asp-action="give-drink-to-my-pet" asp-route-id=@pet.PetName class="gray-button">Give a drink</a>
                                 }
                                 else if (ViewBag.type == "foreign")
                                 {
-                                    <a asp-controller="pet" asp-action="feed-foreign-pet" asp-route-id=@pet.PetName>Feed</a>
-                                    <a asp-controller="pet" asp-action="give-drink-to-foreign-pet" asp-route-id=@pet.PetName>Give a drink</a>
+                                    <a asp-controller="pet" asp-action="feed-foreign-pet" asp-route-id=@pet.PetName class="yellow-button">Feed</a>
+                                    <a asp-controller="pet" asp-action="give-drink-to-foreign-pet" asp-route-id=@pet.PetName class="gray-button">Give a drink</a>
                                 }
                                 
                         }
-                            <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName>View</a>
+                            <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName class="blue-button">View</a>
                         </div>
                     }
                     
@@ -56,5 +67,15 @@
 </table>
 
 <form asp-action="Index">
-    <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="Back" class="btn btn-secondary" />
+    @{
+        @if (ViewBag.type == "current")
+        {
+            <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="Back" class="btn btn-secondary" />
+        }
+        else if (ViewBag.type == "foreign")
+        {
+            <input type="submit" asp-controller="user" asp-action="i-am-collaborator" value="Back" class="btn btn-secondary" />
+        }
+    
+    }
 </form>

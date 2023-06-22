@@ -4,7 +4,7 @@
     ViewData["Title"] = "Caloborators";
     Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
 }
-
+<link rel="stylesheet" href="~/css//RedButton.css" />
 <h1>My collaborators</h1>
 
 <table class="table">
@@ -29,6 +29,7 @@
                 <td>@user.UserName</td>
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
+                <td><a asp-controller="user" asp-action="delete-collaborator" asp-route-id=@user.Email class="red-button">Delete</a></td>
             </tr>
         }
     </tbody>
