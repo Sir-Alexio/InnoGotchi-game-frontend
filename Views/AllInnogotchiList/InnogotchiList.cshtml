@@ -1,31 +1,43 @@
 ﻿@using InnoGotchi_backend.Models.DTOs;
-@model List<PetDto>
+@using InnoGotchi_backend.Models.Entity;
+@model IEnumerable<PetDto>
+
 @{
-    ViewData["Title"] = "GetPetListPage";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AuthorizeLayout.cshtml";
 }
-<link rel="stylesheet" href="~/css//YellowButton.css" />
 <link rel="stylesheet" href="~/css//BlueButton.css" />
-<link rel="stylesheet" href="~/css//GrayButton.css" />
 <link rel="stylesheet" href="~/css//SurviveButtons.css" />
-<th><h1>List of Pets</h1></th>
 
+<h1>Pets</h1>
 
+<form method="post" asp-controller="innogotchi" asp-action="sorted-innogotches" class="d-flex">
+    <select name="selectedItem" class="form-select" style="width: 200px; margin-right: 10px;">
+        <option value="Happy days">Happy days</option>
+        <option value="Age">Sort by age</option>
+        <option value="Hunger">Sort by hunger level</option>
+        <option value="Thirsty">Sort by thirsty level</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Sort</button>
+</form>
 <table class="table">
     <thead>
         <tr>
+            <th>Avatar</th>
             <th>Pet Name</th>
             <th>Age</th>
             <th>Hunger Level</th>
             <th>Thirsty Level</th>
             <th>Happy Days Count</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var pet in Model)
         {
             <tr>
+                <td>
+                    <img src="~/Images/Bodies/@pet.Body" width="50" height="50" />
+                </td>
                 <td>@pet.PetName</td>
                 <td>
                     @if (pet.GetAge() == 0)
@@ -74,43 +86,10 @@
                     }
                 </td>
                 <td>@pet.HappyDaysCount</td>
-                <td>
-                    @{
-                        <div>
-                        @if (pet.GetHungerLevel()!=InnoGotchi_backend.Models.Enums.HungerLevel.Dead && pet.GetThirstyLevel()!=InnoGotchi_backend.Models.Enums.ThirstyLevel.Dead)
-                        {
-                                if (ViewBag.type=="current")
-                                {
-                                    <a asp-controller="pet" asp-action="feed-current-pet" asp-route-id=@pet.PetName class="yellow-button">Feed</a>
-                                    <a asp-controller="pet" asp-action="give-drink-to-my-pet" asp-route-id=@pet.PetName class="gray-button">Give a drink</a>
-                                }
-                                else if (ViewBag.type == "foreign")
-                                {
-                                    <a asp-controller="pet" asp-action="feed-foreign-pet" asp-route-id=@pet.PetName class="yellow-button">Feed</a>
-                                    <a asp-controller="pet" asp-action="give-drink-to-foreign-pet" asp-route-id=@pet.PetName class="gray-button">Give a drink</a>
-                                }
-                                
-                        }
-                            <a asp-controller="pet" asp-action="current-pet" asp-route-id=@pet.PetName class="blue-button">View</a>
-                        </div>
-                    }
-                    
-                </td>
+
+
+                
             </tr>
         }
     </tbody>
 </table>
-
-<form asp-action="Index">
-    @{
-        @if (ViewBag.type == "current")
-        {
-            <input type="submit" asp-controller="farm" asp-action="my-own-farm" value="Back" class="btn btn-secondary" />
-        }
-        else if (ViewBag.type == "foreign")
-        {
-            <input type="submit" asp-controller="user" asp-action="i-am-collaborator" value="Back" class="btn btn-secondary" />
-        }
-    
-    }
-</form>
