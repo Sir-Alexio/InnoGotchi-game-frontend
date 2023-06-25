@@ -27,6 +27,7 @@
     }
     <thead>
         <tr>
+            <th>Avatar</th>
             <th>User name</th>
             <th>User email</th>
         </tr>
@@ -35,6 +36,9 @@
         @foreach (var user in Model)
         {
             <tr>
+                <td>
+                    <img src="~/Images/avatars/@user.Avatar" width="50" height="50" />
+                </td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
                 <td><a asp-controller="user" asp-action="invite-friend" asp-route-id=@user.Email class="blue-button">Invite</a></td>
