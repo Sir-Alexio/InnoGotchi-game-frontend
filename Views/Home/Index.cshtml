@@ -1,8 +1,77 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<form method="post">
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    
+    <h1 class="title">Welcome to InnoGotchi!</h1>
+
+    <p class="description">Manage your virtual pets and relive the nostalgia of childhood games with InnoGotchi, a virtual pet management application.</p>
+
+    <p class="description">To get started, log in or register using your email and password.</p>
+
+    <div class="dino-container">
+        <img id="dino" src="~/Images/Bodies/body5.svg" alt="Dinosaur">
+    </div>
+        <input type="submit" asp-area="" asp-controller="login" asp-action="Index" value="Log in" class="btn btn-primary" />
+        <input type="submit" asp-area="" asp-controller="registration" asp-action="Index" value="Registration" class="btn btn-primary" />
 </div>
+</form>
+<style>
+    .title {
+        font-size: 2rem;
+        color: #333;
+    }
+
+    .description {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .dino-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #dino {
+        width: 150px; /* Adjust the width as desired */
+        height: auto; /* Maintain the aspect ratio */
+    }
+</style>
+
+<script>
+    const dino = document.getElementById('dino');
+    const step = 5; // Number of pixels to move in each step
+    let dinoPos = { x: 0, y: 0 }; // Store the current position of the dinosaur
+    let direction = 1; // 1 for moving right, -1 for moving left
+
+    // Function to update the position of the dinosaur
+    function updateDinoPosition() {
+        dinoPos.x += step * direction;
+        dino.style.transform = `translateX(${dinoPos.x}px)`;
+
+        // Reverse the direction when reaching the right or left edge
+        if (dinoPos.x >= 100 || dinoPos.x <= -100) {
+            direction *= -1;
+        }
+    }
+
+    // Set the interval for continuous movement
+    setInterval(updateDinoPosition, 50); // Adjust the interval duration as desired (in milliseconds)
+</script>
+
+
+
+

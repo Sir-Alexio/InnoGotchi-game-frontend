@@ -7,93 +7,125 @@
 
 <h1>Pet Statistics</h1>
 
-<div class="chart-container">
-    <div class="pie-chart">
-        <canvas id="petPieChart" width="300" height="300"></canvas>
-    </div>
-    <div class="bar-chart">
-        <canvas id="petBarChart" width="500" height="300"></canvas>
-    </div>
-</div>
+<html>
+<head>
+    <title>Pet Statistics</title>
+    <style>
+        .chart-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        .pie-chart, .bar-chart {
+            display: inline-block;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h3>Alive/dead pets</h3>
+        <div class="pie-chart">
+            <canvas id="petPieChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <h3>Other statistics</h3>
+    <div class="chart-container">
+        <div class="bar-chart">
+            <canvas id="petBarChart" width="800" height="400"></canvas>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var pieData = {
-                labels: ['Alive', 'Dead'],
-                datasets: [{
-                    data: [@Model.AlivePetCount, @Model.DeadPetCount],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 99, 132, 0.7)'
-                    ]
-                }]
-            };
+        @section Scripts {
+                <script src="https://cdn.jsdelivr.net/npm/chart.js" ></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var pieData = {
+                    labels: ['Alive', 'Dead'],
+                    datasets: [{
+                        data: [@Model.AlivePetCount, @Model.DeadPetCount],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ]
+                    }]
+                };
 
-            var barData = {
-                labels: ['Average Feeding Period', 'Average Drinking Period', 'Average Happy Days Count', 'Average Pets Age'],
-                datasets: [{
-                    label: 'Statistics',
-                    data: [@Model.AverageFeedingPeriod, @Model.AverageDrinkingPeriod, @Model.AverageHappyDaysCount, @Model.AveragePetsAge],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.7)',
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(75, 192, 192, 0.7)'
-                    ]
-                }]
-            };
+                var barData = {
+                    labels: ['Average Feeding Period', 'Average Drinking Period', 'Average Happy Days Count', 'Average Pets Age'],
+                    datasets: [{
+                        label: 'Statistics',
+                        data: [@Model.AverageFeedingPeriod, @Model.AverageDrinkingPeriod, @Model.AverageHappyDaysCount, @Model.AveragePetsAge],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ]
+                    }]
+                };
 
-            var pieChartOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: 'Pet Count'
-                }
-            };
-
-            var barChartOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
+                var pieChartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Pet Count'
                     }
-                },
-                title: {
-                    display: true,
-                    text: 'Additional Statistics'
-                }
-            };
+                };
 
-            var petPieChart = new Chart(document.getElementById('petPieChart'), {
-                type: 'doughnut',
-                data: pieData,
-                options: pieChartOptions
-            });
+                var barChartOptions = {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Additional Statistics'
+                    }
+                };
 
-            var petBarChart = new Chart(document.getElementById('petBarChart'), {
-                type: 'bar',
-                data: barData,
-                options: barChartOptions
+                var petPieChart = new Chart(document.getElementById('petPieChart'), {
+                    type: 'doughnut',
+                    data: pieData,
+                    options: pieChartOptions
+                });
+
+                var petBarChart = new Chart(document.getElementById('petBarChart'), {
+                    type: 'bar',
+                    data: barData,
+                    options: barChartOptions
+                });
             });
-        });
+        </script>
+    }
+
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .pie-chart,
+        .bar-chart {
+            width: 50%;
+            text-align: center;
+        }
+    </style>
+        // Add your chart generation code here
     </script>
-}
+</body>
+</html>
 
-<style>
-    .chart-container {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-    }
 
-    .pie-chart,
-    .bar-chart {
-        width: 50%;
-        text-align: center;
-    }
-</style>
 

@@ -8,6 +8,7 @@ using InnoGotchi_frontend.Services.Abstract;
 
 namespace InnoGotchi_frontend.Controllers
 {
+    [Route("registration")]
     public class RegisterController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -25,8 +26,7 @@ namespace InnoGotchi_frontend.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Route("registrate")]
         public async Task<ActionResult> OnPost(RegistrationUser registrationUser)
         {
             UserDto dto = registrationUser.Dto;

@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 
 namespace InnoGotchi_frontend.Controllers
 {
+    [Route("login")]
     public class LoginController : Controller
     {
         private readonly HttpClient _httpClient;
