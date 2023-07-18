@@ -108,3 +108,17 @@ On this Image you can see two bloks. Left side appeared after pressing button "R
 After filling all information and pressing create button you are registered in application! Now you can log in. For log in you need email and password you've used in registration form.
 
 ![Project Type](/Images/logIn.jpg)
+
+After pressing log in button you authorized in application. Automaticly you will redirect to personal-info page.
+
+![Project Type](/Images/personalinfo.jpg)
+
+Here you can find all information about you. As you can see, you have "Edit Profile" button. So, if you fill you information wrong, you can chnge it after registration.
+
+![Project Type](/Images/personalinfo2.jpg)
+
+So, you can change all information exept your email. After pressing "Update" button your information will update. Also you can change your password, after pressing "Change password" button.
+
+![Project Type](/Images/changepassword.jpg)
+
+I hope you enjoy our small trip to my project. But it was only beginning :). Let's show you some gameplay and bissness logic of my application.
