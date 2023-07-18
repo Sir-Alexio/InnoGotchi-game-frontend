@@ -94,4 +94,17 @@ A little bit boring, right? So, let's finish our theoretical part and moove to p
 ## Practice
 
 In my frontend part I used Razor pages, CSS and a little bit JS. So, we gonna start with Home Page of my application.
+
 ![Project Type](/Images/homepage.jpg)
+
+So, dinozaur move from left to right side due to JS! I hope looks good. After getting a home page we can choose: log in or registrate.
+
+After pressing registrate button we have simple form.
+
+![Project Type](/Images/registration.jpg)
+
+On this Image you can see two bloks. Left side appeared after pressing button "Registration". Right side - registration form after pressing button "Create" without filling information. So, after adding model validation it's impossible to send to the server empty model.
+
+After filling all information and pressing create button you are registered in application! Now you can log in. For log in you need email and password you've used in registration form.
+
+![Project Type](/Images/logIn.jpg)
