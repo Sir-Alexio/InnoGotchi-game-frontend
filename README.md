@@ -94,3 +94,4 @@ A little bit boring, right? So, let's finish our theoretical part and moove to p
 ## Practice
 
 In my frontend part I used Razor pages, CSS and a little bit JS. So, we gonna start with Home Page of my application.
+![Project Type](/Images/homepage.jpg)
