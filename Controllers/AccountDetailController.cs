@@ -4,8 +4,6 @@ using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Models.Validators;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -64,7 +62,6 @@ namespace InnoGotchi_frontend.Controllers
         [Route("update")]
         public async Task<IActionResult> Update(RegistrationUser registrationUser)
         {
-            //костыль
             registrationUser.Dto.Password = "hiden";
 
             _user = registrationUser.Dto;
@@ -104,9 +101,6 @@ namespace InnoGotchi_frontend.Controllers
             {
                 return View("ChangePassword", model);
             }
-
-            //refresh token
-            //if (!_tokenService.IsTokenValid(context: HttpContext)) { _tokenService.AddTokenToCookie(await _tokenService.RefreshTokenAsync(HttpContext), HttpContext, "token", 1); }
 
             JsonContent content = JsonContent.Create(model);
 
