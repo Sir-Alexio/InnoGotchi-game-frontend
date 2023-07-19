@@ -122,3 +122,27 @@ So, you can change all information exept your email. After pressing "Update" but
 ![Project Type](/Images/changepassword.jpg)
 
 I hope you enjoy our small trip to my project. But it was only beginning :). Let's show you some gameplay and bissness logic of my application.
+
+Let's start with "Farms Overview" section. After pressing "Farms Overview" button you can see two blocs: "My own farm" with all information about your farm or "Farms, where i'm collaborator".
+
+![Project Type](/Images/farmoverview.jpg)
+
+In "my own farm" section you can see different pages. If you have pnly created yor account and haven't got you owt farm, application offer you create you own farm.
+
+![Project Type](/Images/createfarm.jpg)
+
+Farm name shoud be uniq during all application. After creating farm you will see Farm overview page with information about you farm.
+
+![Project Type](/Images/farm.jpg)
+
+Here you can see two buttons: "Create pet" and "My pets". After pressing "Create pet" button you will go to pet constrator, where you shoud choose all parts of your pet: body, nose, eyes ets. Also yor shoud choose pet name that shoud be usiq during all application.
+
+![Project Type](/Images/contractor.jpg)
+
+After choosing all pet components you can see how your pet looks like:
+
+![Project Type](/Images/amebaa.jpg)
+
+As you can see, you shoud choose pet name - it requerd. After creating a pet, you can see all you pets in pet-list page.
+
+![Project Type](/Images/petlist.jpg)
