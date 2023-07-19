@@ -125,6 +125,8 @@ I hope you enjoy our small trip to my project. But it was only beginning :). Let
 
 Let's start with "Farms Overview" section. After pressing "Farms Overview" button you can see two blocs: "My own farm" with all information about your farm or "Farms, where i'm collaborator".
 
+### Farms Overview
+
 ![Project Type](/Images/farmoverview.jpg)
 
 In "my own farm" section you can see different pages. If you have pnly created yor account and haven't got you owt farm, application offer you create you own farm.
@@ -146,3 +148,55 @@ After choosing all pet components you can see how your pet looks like:
 As you can see, you shoud choose pet name - it requerd. After creating a pet, you can see all you pets in pet-list page.
 
 ![Project Type](/Images/petlist.jpg)
+
+Here you can Feed or Give a drink to yor pet. After pressing "Feed" or "Give a drink" button you pet status will update:
+
+![Project Type](/Images/petlist2.jpg)
+
+Hungry and Thirsty level changed from "Normal" to "Full". Also you can see your pet after pressing "View" button in a pet list.
+
+Now get back to "Farms overview page" and go to "Farms, where i'm collaborator".
+
+![Project Type](/Images/imcollab.jpg)
+
+As you can see, hear you can find list of users, added you to collaborators. So, only one user added me to collaborators. Now, I can see his farms overview and his pet list.
+
+![Project Type](/Images/foreignpetlist.jpg)
+
+Also I can Feed or Give a drink to his pet. I can't create or manage his pet. Only give a drink or feed. And with view button you can see his pets.
+
+Now, move to "Farm Detail" section of my application.
+
+### Farm Detail
+
+Here you can find three blocks: "Invite freind", "My collaborators" and "Farm statistics".
+
+![Project Type](/Images/farmsdetailpage.jpg)
+
+Let's shou you one by one all functionality in farms detail section. First one is "Invite friend" section.
+
+![Project Type](/Images/invitefriend.jpg)
+
+On this page you can invite users to your collaborators. After adding they can feed or give a drink your pets. Ast the top of the page you can find search row, where you can write users name.All you collaborators you can find in "My collaborators" section.
+
+![Project Type](/Images/collab.jpg)
+
+As you can see, you can remove any user from the collaborators list.
+
+Now let's show you third part of "Farm Detail" - Farm statistic.
+
+![Project Type](/Images/statistic.jpg)
+
+Here you can see two blocs. Pie chart of alive/dead pets and other statistics. In other statistics you can file: Avarege happy days count,average pets age and others. Look good, right? :) Now move to last, but not least section. 
+
+### All innogotchi list
+
+In this section you can find all pets during all application.
+
+![Project Type](/Images/listpage.jpg)
+
+At the top of page you can see list of filters, you shoud use for sorting all pets. By default it sort by happy days count.
+
+## Conclusion
+
+So, it was a (not)small description of clint side of my application. Note, that I just make my first steps in softwere development and I hope you have enjoyed this small trip. :) Feel free for advice me to make my code better. Thanks for reading me!
