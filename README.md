@@ -89,15 +89,15 @@ It's a good way to validate model befor sending to backend side. After model val
             return RedirectToAction("personal-info", "account");
         }
 ```
-A little bit boring, right? So, let's finish our theoretical part and moove to practice. Now I provide you how my frontend part of application looks like. I show you all functionality of my application. Let's start!
+A little bit boring, right? So, let's finish our theoretical part and moove to practice. Now I provide you how my frontend part of application looks like. I will show you all functionality of my application. Let's start!
 
 ## Practice
 
-In my frontend part I used Razor pages, CSS and a little bit JS. So, we gonna start with Home Page of my application.
+In my front end part I used Razor pages, CSS and a little bit JS. So, we gonna start with Home Page of my application.
 
 ![Project Type](/Images/homepage.jpg)
 
-So, dinozaur move from left to right side due to JS! I hope looks good. After getting a home page we can choose: log in or registrate.
+So, dinozaur move from left to right side due to JS! I hope looks good. After getting a home page we can choose: log in or registration.
 
 After pressing registrate button we have simple form.
 
@@ -109,19 +109,19 @@ After filling all information and pressing create button you are registered in a
 
 ![Project Type](/Images/logIn.jpg)
 
-After pressing log in button you authorized in application. Automaticly you will redirect to personal-info page.
+After pressing log in button you authorized in application. Automatically you will redirect to personal-info page.
 
 ![Project Type](/Images/personalinfo.jpg)
 
-Here you can find all information about you. As you can see, you have "Edit Profile" button. So, if you fill you information wrong, you can chnge it after registration.
+Here you can find all information about you. As you can see, you have "Edit Profile" button. So, if you fill your information wrong, you can change it after registration.
 
 ![Project Type](/Images/personalinfo2.jpg)
 
-So, you can change all information exept your email. After pressing "Update" button your information will update. Also you can change your password, after pressing "Change password" button.
+So, you can change all information except your email. After pressing "Update" button your information will update. Also you can change your password, after pressing "Change password" button.
 
 ![Project Type](/Images/changepassword.jpg)
 
-I hope you enjoy our small trip to my project. But it was only beginning :). Let's show you some gameplay and bissness logic of my application.
+I hope you are enjoying our small trip to my project. But it was only beginning :). Let's show you some gameplay and business logic of my application.
 
 Let's start with "Farms Overview" section. After pressing "Farms Overview" button you can see two blocs: "My own farm" with all information about your farm or "Farms, where i'm collaborator".
 
@@ -129,15 +129,15 @@ Let's start with "Farms Overview" section. After pressing "Farms Overview" butto
 
 ![Project Type](/Images/farmoverview.jpg)
 
-In "my own farm" section you can see different pages. If you have pnly created yor account and haven't got you owt farm, application offer you create you own farm.
+In "my own farm" section you can see different pages. If you have only created your account and haven't got you pet farm, application offer you create you own farm.
 
 ![Project Type](/Images/createfarm.jpg)
 
-Farm name shoud be uniq during all application. After creating farm you will see Farm overview page with information about you farm.
+Farm name should be unique during all application. After creating farm you will see Farm overview page with information about you farm.
 
 ![Project Type](/Images/farm.jpg)
 
-Here you can see two buttons: "Create pet" and "My pets". After pressing "Create pet" button you will go to pet constrator, where you shoud choose all parts of your pet: body, nose, eyes ets. Also yor shoud choose pet name that shoud be usiq during all application.
+Here you can see two buttons: "Create pet" and "My pets". After pressing "Create pet" button you will go to pet constrator, where you shoud choose all parts of your pet: body, nose, eyes ets. Also yor shoud choose pet name that shoud be uniq during all application.
 
 ![Project Type](/Images/contractor.jpg)
 
@@ -145,11 +145,11 @@ After choosing all pet components you can see how your pet looks like:
 
 ![Project Type](/Images/amebaa.jpg)
 
-As you can see, you shoud choose pet name - it requerd. After creating a pet, you can see all you pets in pet-list page.
+As you can see, you should choose pet name - it required. After creating a pet, you can see all you pets in pet-list page.
 
 ![Project Type](/Images/petlist.jpg)
 
-Here you can Feed or Give a drink to yor pet. After pressing "Feed" or "Give a drink" button you pet status will update:
+Here you can Feed or Give a drink to your pet. After pressing "Feed" or "Give a drink" button you pet status will update:
 
 ![Project Type](/Images/petlist2.jpg)
 
@@ -159,25 +159,25 @@ Now get back to "Farms overview page" and go to "Farms, where i'm collaborator".
 
 ![Project Type](/Images/imcollab.jpg)
 
-As you can see, hear you can find list of users, added you to collaborators. So, only one user added me to collaborators. Now, I can see his farms overview and his pet list.
+As you can see, hear you can find list of users, added you to collaborators. So, only one user added me to collaborators. Now, I can see his farm overview and his pet list.
 
 ![Project Type](/Images/foreignpetlist.jpg)
 
 Also I can Feed or Give a drink to his pet. I can't create or manage his pet. Only give a drink or feed. And with view button you can see his pets.
 
-Now, move to "Farm Detail" section of my application.
+Now, moving to "Farm Detail" section of my application.
 
 ### Farm Detail
 
-Here you can find three blocks: "Invite freind", "My collaborators" and "Farm statistics".
+Here you can find three blocks: "Invite friend", "My collaborators" and "Farm statistics".
 
 ![Project Type](/Images/farmsdetailpage.jpg)
 
-Let's shou you one by one all functionality in farms detail section. First one is "Invite friend" section.
+Let's show you one by one all functionality in farms detail section. First one is "Invite friend" section.
 
 ![Project Type](/Images/invitefriend.jpg)
 
-On this page you can invite users to your collaborators. After adding they can feed or give a drink your pets. Ast the top of the page you can find search row, where you can write users name.All you collaborators you can find in "My collaborators" section.
+On this page you can invite users to your collaborators. After adding, collaborators can feed or give a drink to your pets. At the top of the page you can find search row, where you can write users name.All your collaborators you can find in "My collaborators" section.
 
 ![Project Type](/Images/collab.jpg)
 
@@ -187,16 +187,15 @@ Now let's show you third part of "Farm Detail" - Farm statistic.
 
 ![Project Type](/Images/statistic.jpg)
 
-Here you can see two blocs. Pie chart of alive/dead pets and other statistics. In other statistics you can file: Avarege happy days count,average pets age and others. Look good, right? :) Now move to last, but not least section. 
+Here you can see two blocs. Pie chart of alive/dead pets and other statistics. In other statistics you can find: Avarege happy days count,average pets age and others. Looks good, right? :) Now move to last, but not least section. 
 
 ### All innogotchi list
 
-In this section you can find all pets during all application.
+In this section you can find all pets across all application.
 
 ![Project Type](/Images/listpage.jpg)
 
-At the top of page you can see list of filters, you shoud use for sorting all pets. By default it sort by happy days count.
-
+At the top of page you can see list of filters, you should use for sorting all pets. By default it sort by happy days count.
 ## Conclusion
 
 So, it was a (not)small description of clint side of my application. Note, that I just make my first steps in softwere development and I hope you have enjoyed this small trip. :) Feel free for advice me to make my code better. Thanks for reading me!
