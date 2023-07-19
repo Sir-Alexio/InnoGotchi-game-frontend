@@ -1,16 +1,7 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using FluentValidation.Results;
-using FluentValidation.AspNetCore;
-using NuGet.Common;
+﻿using Microsoft.AspNetCore.Mvc;
 using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Services.Abstract;
-using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Models.Validators;
-using System.Text.Json;
-using InnoGotchi_backend.Models.Entity;
-using System.Net.Http.Headers;
 
 namespace InnoGotchi_frontend.Controllers
 {

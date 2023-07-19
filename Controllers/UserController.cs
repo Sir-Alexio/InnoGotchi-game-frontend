@@ -1,5 +1,4 @@
 ﻿using InnoGotchi_backend.Models.Dto;
-using InnoGotchi_backend.Models.DTOs;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
@@ -30,7 +29,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest();
             }
 
-            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(await response.Content.ReadAsStringAsync());
 
             return View("AllUsers", users);
         }
@@ -66,7 +65,7 @@ namespace InnoGotchi_frontend.Controllers
                 return View("AllUsers",new List<UserDto>());
             }
 
-            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+            List<UserDto>? users = JsonSerializer.Deserialize<List<UserDto>>(await response.Content.ReadAsStringAsync());
 
             return View("AllUsers", users);
         }
@@ -83,7 +82,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest();
             }
 
-            List<UserDto>? collaborators = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+            List<UserDto>? collaborators = JsonSerializer.Deserialize<List<UserDto>>(await response.Content.ReadAsStringAsync());
 
             return View("Collaborators", collaborators);
         }
@@ -100,7 +99,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest();
             }
 
-            List<UserDto>? iAmCollab = JsonSerializer.Deserialize<List<UserDto>>(response.Content.ReadAsStringAsync().Result);
+            List<UserDto>? iAmCollab = JsonSerializer.Deserialize<List<UserDto>>(await response.Content.ReadAsStringAsync());
 
             return View("IAmCollaborator", iAmCollab);
         }

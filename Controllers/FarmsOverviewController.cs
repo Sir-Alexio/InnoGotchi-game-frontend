@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Net.Http.Headers;
 using InnoGotchi_backend.Models.Dto;
-using FluentValidation.AspNetCore;
 using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_frontend.Models.Validators;
 using InnoGotchi_backend.Models.Entity;
@@ -45,14 +44,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
                 return View("CreateFarm", farmDto);
             }
 
-            FarmDto? farm = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+            FarmDto? farm = JsonSerializer.Deserialize<FarmDto>(await response.Content.ReadAsStringAsync());
 
             return View("FarmInfo", farm);
         }
@@ -64,7 +63,7 @@ namespace InnoGotchi_frontend.Controllers
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/farm/current-farm");
 
-            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(await response.Content.ReadAsStringAsync());
 
             if (string.IsNullOrEmpty(dto.FarmName))
             {
@@ -92,7 +91,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest();
             }
 
-            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(response.Content.ReadAsStringAsync().Result);
+            FarmDto? dto = JsonSerializer.Deserialize<FarmDto>(await response.Content.ReadAsStringAsync());
 
             return View("ForeignFarm", dto);
         }

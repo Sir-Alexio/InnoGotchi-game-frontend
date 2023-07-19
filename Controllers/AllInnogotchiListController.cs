@@ -1,14 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using InnoGotchi_backend.Controllers;
-using InnoGotchi_backend.DataContext;
-using InnoGotchi_backend.Models;
-using Microsoft.AspNetCore.Http;
-using NuGet.Protocol;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.Text.Json;
 using System.Net.Http.Headers;
-using System.Net.Http;
-using InnoGotchi_frontend.Services;
 using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_backend.Models.DTOs;
 
@@ -38,7 +30,7 @@ namespace InnoGotchi_frontend.Controllers
             {
                 return BadRequest("UnAuthorized");
             }
-            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
+            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(await response.Content.ReadAsStringAsync());
 
             pets = pets.OrderBy(x => x.HappyDaysCount).Reverse().ToList();
 

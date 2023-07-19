@@ -37,14 +37,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
                 return View("personal-info", _user);
             }
 
-            string jsonUser = response.Content.ReadAsStringAsync().Result;
+            string jsonUser = await response.Content.ReadAsStringAsync();
 
             _user =  JsonSerializer.Deserialize<UserDto>(jsonUser);
 
@@ -73,7 +73,7 @@ namespace InnoGotchi_frontend.Controllers
                 return View("Update", registrationUser);
             }
 
-            _user.Avatar = UpdateUploadedImage(registrationUser).Result;
+            _user.Avatar = await UpdateUploadedImage(registrationUser);
 
             JsonContent content = JsonContent.Create(_user);
 
@@ -83,7 +83,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
@@ -110,7 +110,7 @@ namespace InnoGotchi_frontend.Controllers
             
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? error = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? error = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 return BadRequest(error.Message);
             }

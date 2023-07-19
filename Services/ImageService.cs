@@ -1,6 +1,5 @@
 ﻿using InnoGotchi_frontend.Models;
 using InnoGotchi_frontend.Services.Abstract;
-using System.Drawing;
 
 namespace InnoGotchi_frontend.Services
 {

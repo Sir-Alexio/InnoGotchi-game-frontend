@@ -1,10 +1,7 @@
-﻿using InnoGotchi_backend.Models.Dto;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using System.Net.Http;
 using System.Text.Json;
 using InnoGotchi_backend.Models.DTOs;
-using InnoGotchi_backend.Models.Entity;
 
 namespace InnoGotchi_frontend.Controllers
 {
@@ -29,7 +26,7 @@ namespace InnoGotchi_frontend.Controllers
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/farm/statistic");
 
-            StatisticDto? statistic = JsonSerializer.Deserialize<StatisticDto>(response.Content.ReadAsStringAsync().Result);
+            StatisticDto? statistic = JsonSerializer.Deserialize<StatisticDto>(await response.Content.ReadAsStringAsync());
 
             if (statistic == null)
             {

@@ -1,12 +1,7 @@
 ﻿using InnoGotchi_backend.Models.Entity;
-using InnoGotchi_backend.Models.Enums;
 using InnoGotchi_frontend.Services.Abstract;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Text.Json;
 namespace InnoGotchi_frontend.Services
 {
     public class TokenService : ITokenService

@@ -46,7 +46,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 

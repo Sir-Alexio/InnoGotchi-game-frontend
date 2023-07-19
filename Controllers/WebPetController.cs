@@ -35,14 +35,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
                 return View("GetPetListPage");
             }
 
-            return View("CurrentPetOverview", JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result));
+            return View("CurrentPetOverview", JsonSerializer.Deserialize<PetDto>(await response.Content.ReadAsStringAsync()));
         }
 
         [Route("feed-current-pet/{petName}")]
@@ -67,7 +67,7 @@ namespace InnoGotchi_frontend.Controllers
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
 
-            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
+            PetDto? pet = JsonSerializer.Deserialize<PetDto>(await response.Content.ReadAsStringAsync());
 
             JsonContent content = JsonContent.Create(pet);
 
@@ -75,7 +75,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
@@ -107,7 +107,7 @@ namespace InnoGotchi_frontend.Controllers
 
             HttpResponseMessage response = await _httpClient.GetAsync($"api/pet/current-pet/{petName}");
 
-            PetDto? pet = JsonSerializer.Deserialize<PetDto>(response.Content.ReadAsStringAsync().Result);
+            PetDto? pet = JsonSerializer.Deserialize<PetDto>(await response.Content.ReadAsStringAsync());
 
             JsonContent content = JsonContent.Create(pet);
 
@@ -144,15 +144,14 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
                 return View("FarmInfo","farm");
             }
 
-            
-            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
+            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(await response.Content.ReadAsStringAsync());
 
             ViewBag.type = "current";
             
@@ -175,7 +174,7 @@ namespace InnoGotchi_frontend.Controllers
                 return BadRequest("Some error on client!");
             }
 
-            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(response.Content.ReadAsStringAsync().Result);
+            List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(await response.Content.ReadAsStringAsync());
 
             ViewBag.type = "foreign";
             
@@ -212,7 +211,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(response.Content.ReadAsStringAsync().Result);
+                CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
                 ViewBag.Message = errorMessage.Message;
 
