@@ -16,16 +16,19 @@ namespace InnoGotchi_frontend.Controllers
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _environment;
         private readonly ITokenService _tokenService;
+        private readonly ILoggerService _logger;
 
         private static UserDto _user;
 
         public AccountDetailController(IHttpClientFactory httpClientFactory,
             IWebHostEnvironment environment,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            ILoggerService logger)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         [Route("personal-info")]
@@ -34,7 +37,7 @@ namespace InnoGotchi_frontend.Controllers
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
             
             HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user");
-
+            _logger.LogInfo("check is everything fine");
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());

@@ -7,8 +7,14 @@ using InnoGotchi_backend.Models.Dto;
 using InnoGotchi_frontend.Services.Abstract;
 using InnoGotchi_frontend.Services;
 using InnoGotchi_frontend.Middleware;
+using InnoGotchi_backend.Services.LoggerService.Abstract;
+using InnoGotchi_backend.Services.LoggerService;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+builder.Services.AddScoped<ILoggerService, LoggerService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
