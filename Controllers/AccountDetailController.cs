@@ -42,6 +42,8 @@ namespace InnoGotchi_frontend.Controllers
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
+                _logger.LogInfo(errorMessage.Message);
+
                 ViewBag.Message = errorMessage.Message;
 
                 return View("personal-info", _user);
@@ -88,6 +90,8 @@ namespace InnoGotchi_frontend.Controllers
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
+                _logger.LogError(errorMessage.Message);
+
                 ViewBag.Message = errorMessage.Message;
 
                 return View("Update", registrationUser);
@@ -114,6 +118,8 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? error = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
+
+                _logger.LogError(error.Message);
 
                 return BadRequest(error.Message);
             }

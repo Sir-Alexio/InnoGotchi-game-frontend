@@ -13,14 +13,16 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
+        private readonly ILoggerService _logger;
 
         private static PetDto _pet;
         private static string _farmName;
 
-        public WebPetController(IHttpClientFactory httpClient,ITokenService tokenSevice)
+        public WebPetController(IHttpClientFactory httpClient,ITokenService tokenSevice, ILoggerService logger)
         {
             _httpClient = httpClient.CreateClient("Client");
             _tokenService = tokenSevice;
+            _logger = logger;
 
             if(_pet == null)
                 _pet = new PetDto(); 
@@ -36,6 +38,8 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
+
+                _logger.LogError(errorMessage.Message);
 
                 ViewBag.Message = errorMessage.Message;
 
@@ -77,6 +81,8 @@ namespace InnoGotchi_frontend.Controllers
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
+                _logger.LogError(errorMessage.Message);
+
                 ViewBag.Message = errorMessage.Message;
 
                 return RedirectToAction("pet-list", "pet");
@@ -115,6 +121,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not give a drink.");
                 return BadRequest();
             }
 
@@ -146,6 +153,8 @@ namespace InnoGotchi_frontend.Controllers
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
+                _logger.LogError(errorMessage.Message);
+
                 ViewBag.Message = errorMessage.Message;
 
                 return View("FarmInfo","farm");
@@ -162,7 +171,7 @@ namespace InnoGotchi_frontend.Controllers
         public async Task<IActionResult> GetForeignPetListPage(string farmName)
         {
             ViewBag.petType = "foreign";
-            //костыль
+
             _farmName = farmName;
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
@@ -171,7 +180,8 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                return BadRequest("Some error on client!");
+                _logger.LogError("Can not get foreign pet list");
+                return BadRequest();
             }
 
             List<PetDto>? pets = JsonSerializer.Deserialize<List<PetDto>>(await response.Content.ReadAsStringAsync());
@@ -212,6 +222,8 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
+
+                _logger.LogError(errorMessage.Message);
 
                 ViewBag.Message = errorMessage.Message;
 

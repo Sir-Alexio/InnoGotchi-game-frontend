@@ -10,13 +10,16 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
+        private readonly ILoggerService _logger;
 
         public LoginController(
             IHttpClientFactory httpClientFactory,
-            ITokenService tokenManager)
+            ITokenService tokenManager,
+            ILoggerService logger)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _tokenService = tokenManager;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -41,7 +44,9 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 string error = await response.Content.ReadAsStringAsync();
-                
+
+                _logger.LogError(error);
+
                 ViewBag.Message = error;
 
                 return View("Index", dto);

@@ -11,6 +11,7 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _client;
         private readonly ITokenService _tokenService;
+
         private static List<PetDto> _pets;
 
         public AllInnogotchiListController(IHttpClientFactory clientFactory, ITokenService tokenService)

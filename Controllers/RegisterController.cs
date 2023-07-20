@@ -14,12 +14,14 @@ namespace InnoGotchi_frontend.Controllers
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
         private readonly IWebHostEnvironment _environment;
+        private readonly ILoggerService _logger;
 
-        public RegisterController(IHttpClientFactory httpClientFactory, IWebHostEnvironment environment, ITokenService tokenSevice)
+        public RegisterController(IHttpClientFactory httpClientFactory, IWebHostEnvironment environment, ITokenService tokenSevice, ILoggerService logger)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _environment = environment;
             _tokenService = tokenSevice;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -48,6 +50,7 @@ namespace InnoGotchi_frontend.Controllers
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
 
+                _logger.LogError(errorMessage.Message);
                 ViewBag.Message = errorMessage.Message;
 
                 return View("Index", registrationUser);

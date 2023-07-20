@@ -1,4 +1,5 @@
 ﻿using InnoGotchi_backend.Models.Dto;
+using InnoGotchi_backend.Services.LoggerService.Abstract;
 using InnoGotchi_frontend.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
@@ -11,10 +12,12 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
-        public UserController(IHttpClientFactory factory, ITokenService tokenService)
+        private readonly ILoggerService _logger;
+        public UserController(IHttpClientFactory factory, ITokenService tokenService, ILoggerService logger)
         {
             _httpClient = factory.CreateClient("Client");
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         [Route("all-users")]
@@ -26,6 +29,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not return all users.");
                 return BadRequest();
             }
 
@@ -43,6 +47,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not invite friend.");
                 return BadRequest();
             }
 
@@ -59,6 +64,8 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 string error = await response.Content.ReadAsStringAsync();
+
+                _logger.LogError(error);
 
                 ViewBag.Message = error;
 
@@ -79,6 +86,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not return MyCollaborators");
                 return BadRequest();
             }
 
@@ -96,6 +104,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not return users, where i am collaborator.");
                 return BadRequest();
             }
 
@@ -113,6 +122,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Can not delete collaborator");
                 return BadRequest();
             }
 

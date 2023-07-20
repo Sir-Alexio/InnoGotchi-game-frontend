@@ -13,11 +13,13 @@ namespace InnoGotchi_frontend.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
+        private readonly ILoggerService _logger;
 
-        public FarmsOverviewController(IHttpClientFactory httpClientFactory, ITokenService tokenService)
+        public FarmsOverviewController(IHttpClientFactory httpClientFactory, ITokenService tokenService, ILoggerService logger)
         {
             _httpClient = httpClientFactory.CreateClient("Client");
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         [Route("farm-overview")]
@@ -45,6 +47,8 @@ namespace InnoGotchi_frontend.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
+
+                _logger.LogError(errorMessage.Message);
 
                 ViewBag.Message = errorMessage.Message;
 
@@ -88,6 +92,7 @@ namespace InnoGotchi_frontend.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Get foreign farm error.");
                 return BadRequest();
             }
 
