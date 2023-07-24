@@ -198,4 +198,4 @@ In this section you can find all pets across all application.
 At the top of page you can see list of filters, you can use for sorting all pets. By default it sorts by happy days count.
 ## Conclusion
 
-So, it was a (not)small description of clint side of my application. Please, keep in mind, that I just make my first steps in software development and I hope you have enjoyed this small trip. :) I will be glad to receive any advice and suggestions that can make my code better. Thanks for your attention!
+So, it was a (not)small description of client side of my application. Please, keep in mind, that I just make my first steps in software development and I hope you have enjoyed this small trip. :) I will be glad to receive any advice and suggestions that can make my code better. Thanks for your attention!
