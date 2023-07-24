@@ -37,7 +37,7 @@ namespace InnoGotchi_frontend.Controllers
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Request.Cookies["token"]);
             
             HttpResponseMessage response = await _httpClient.GetAsync($"api/authorization/user");
-            _logger.LogInfo("check is everything fine");
+
             if (!response.IsSuccessStatusCode)
             {
                 CustomExeption? errorMessage = JsonSerializer.Deserialize<CustomExeption>(await response.Content.ReadAsStringAsync());
